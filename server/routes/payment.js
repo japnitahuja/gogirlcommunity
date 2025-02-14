@@ -43,6 +43,55 @@ try {
 }
 });
 
+router.post("/subscriptions", async (req, res) => {
+  try {
+  
+      console.log(process.env.ENV);
+  
+      if (process.env.ENV == "live") {
+        var razorpay_key = process.env.RAZORPAY_LIVE_KEY_ID;
+        var razorpay_secret = process.env.RAZORPAY_LIVE_SECRET;
+      } else {
+        var razorpay_key = process.env.RAZORPAY_KEY_ID;
+        var razorpay_secret = process.env.RAZORPAY_SECRET;
+      }
+  
+      console.log(`key_id: ${razorpay_key}, key_secret: ${razorpay_secret}`);
+  
+      const instance = new Razorpay({
+          key_id: razorpay_key,
+          key_secret: razorpay_secret,
+      });
+
+      const oneMonthFromNow = Math.floor(Date.now() / 1000) + (30 * 24 * 60 * 60);
+  
+      const options = {
+        plan_id: "plan_PvSXyQU8VoL6zb",
+        customer_notify: 1,
+        quantity: 1,
+        total_count: 12,
+        start_at: oneMonthFromNow,
+        addons: [
+        ],
+        notes: {
+          key1: "value3",
+          key2: "value2"
+        }
+      }
+
+      const subscription = await instance.subscriptions.create(options);
+  
+      console.log(subscription);
+  
+      if (!subscription) return res.status(500).send("Some error occured");
+  
+      res.json(subscription);
+  } catch (error) {
+      console.log(error);
+      res.status(500).send(error);
+  }
+  });
+
 router.post("/success", async (req, res) => {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature, orderAmount } =
       req.body;
@@ -67,12 +116,12 @@ router.post("/success", async (req, res) => {
       var razorpay_secret = process.env.RAZORPAY_SECRET;
     }
 
-    const instance = new Razorpay({
-      key_id: razorpay_key,
-      key_secret: razorpay_secret,
-    });
+    // const instance = new Razorpay({
+    //   key_id: razorpay_key,
+    //   key_secret: razorpay_secret,
+    // });
 
-    instance.payments.capture(razorpay_payment_id, orderAmount, "INR")
+    // instance.payments.capture(razorpay_payment_id, orderAmount, "INR")
   
     res.json({
       msg: "success",

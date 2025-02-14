@@ -92,6 +92,81 @@ function App() {
         paymentObject.open();
     }
 
+    async function subscribe(e) {
+
+        console.log("button clicked");
+        const res = await loadScript(
+            "https://checkout.razorpay.com/v1/checkout.js"
+        );
+
+        console.log(res);
+
+        if (!res) {
+            alert("Razorpay SDK failed to load. Are you online?");
+            return;
+        }
+
+        const result = await axios.post("payment/subscriptions");
+
+        console.log("result",result);
+
+        if (!result) {
+            alert("Server error. Are you online?");
+            return;
+        }
+
+        const { id: subscription_id, } = result.data;
+
+        console.log("result",result.data);
+
+        console.log(process.env.REACT_APP_ENV)
+        if (process.env.REACT_APP_ENV == "live") {
+            var razorpay_key = process.env.REACT_APP_RAZORPAY_LIVE_KEY_ID;
+            console.log("razorpay_key",razorpay_key);
+        } else {
+            var razorpay_key = process.env.REACT_APP_RAZORPAY_KEY_ID;
+            console.log("razorpay_key",razorpay_key);
+        }
+
+        var options = {
+            "key": razorpay_key,
+            "subscription_id": subscription_id,
+            "name": "Acme Corp.",
+            "description": "Monthly Test Plan",
+            "image": "/your_logo.jpg",
+            handler: async function (response) {
+                const data = {
+                    orderCreationId: subscription_id,
+                    razorpay_payment_id: response.razorpay_payment_id,
+                    razorpay_order_id: response.razorpay_subscription_id,
+                    razorpay_signature: response.razorpay_signature,
+                    // orderAmount: amount,
+                };
+
+                console.log(data);
+
+                const result = await axios.post("payment/success", data);
+
+                alert(result.data.msg);
+            },
+            "prefill": {
+                "name": "Gaurav Kumar",
+                "email": "gaurav.kumar@example.com",
+                "contact": "+919876543210"
+            },
+            "notes": {
+                "note_key_1": "Tea. Earl Grey. Hot",
+                "note_key_2": "Make it so."
+            },
+            "theme": {
+                "color": "#F37254"
+            }
+        };
+
+        const paymentObject = new window.Razorpay(options);
+        paymentObject.open();
+    }
+
     return (
         <div className="App">
             <header className="App-header">
@@ -99,6 +174,10 @@ function App() {
                 <p>Buy React now!</p>
                 <button className="pay-button" onClick={displayRazorpay}>
                     Pay ₹500
+                </button>
+                <br></br>
+                <button className="pay-button" onClick={subscribe}>
+                    subscription
                 </button>
             </header>
         </div>
