@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const Razorpay = require("razorpay");
+const crypto = require("crypto");
 
 const router = express.Router();
 
@@ -29,17 +30,28 @@ try {
 }
 });
 
-app.post("/success", async (req, res) => {
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+router.post("/success", async (req, res) => {
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, orderAmount } =
       req.body;
+
+    console.log("req body", req.body);
+
+    console.log("other")
+    console.log(razorpay_order_id, razorpay_payment_id, razorpay_signature, orderAmount);
   
     const sha = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET);
-    //order_id + "|" + razorpay_payment_id
     sha.update(`${razorpay_order_id}|${razorpay_payment_id}`);
     const digest = sha.digest("hex");
     if (digest !== razorpay_signature) {
       return res.status(400).json({ msg: "Transaction is not legit!" });
     }
+
+    const instance = new Razorpay({
+      key_id: process.env.RAZORPAY_KEY_ID,
+      key_secret: process.env.RAZORPAY_SECRET,
+    });
+
+    instance.payments.capture(razorpay_payment_id, orderAmount, "INR")
   
     res.json({
       msg: "success",

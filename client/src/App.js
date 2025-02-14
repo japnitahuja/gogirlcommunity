@@ -18,7 +18,7 @@ function App() {
         });
     }
 
-    async function displayRazorpay() {
+    async function displayRazorpay(e) {
 
         console.log("button clicked");
         const res = await loadScript(
@@ -44,7 +44,7 @@ function App() {
         const { amount, id: order_id, currency } = result.data;
 
         const options = {
-            key: "rzp_test_r6FiJfddJh76SI",
+            key: process.env.REACT_APP_RAZORPAY_KEY_ID,
             amount: amount.toString(),
             currency: currency,
             name: "Soumya Corp.",
@@ -54,14 +54,17 @@ function App() {
             handler: async function (response) {
                 const data = {
                     orderCreationId: order_id,
-                    razorpayPaymentId: response.razorpay_payment_id,
-                    razorpayOrderId: response.razorpay_order_id,
-                    razorpaySignature: response.razorpay_signature,
+                    razorpay_payment_id: response.razorpay_payment_id,
+                    razorpay_order_id: response.razorpay_order_id,
+                    razorpay_signature: response.razorpay_signature,
+                    orderAmount: amount,
                 };
 
-                // const result = await axios.post("payment/success", data);
+                console.log(data);
 
-                // alert(result.data.msg);
+                const result = await axios.post("payment/success", data);
+
+                alert(result.data.msg);
             },
             prefill: {
                 name: "Soumya Dey",
