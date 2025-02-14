@@ -11,3 +11,20 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+.pay-button {
+  font-size: 20px; /* Make text bigger */
+  padding: 15px 30px; /* Add more padding */
+  background-color: #28a745; /* Green color */
+  color: white; /* White text */
+  border: none; /* Remove border */
+  border-radius: 8px; /* Smooth edges */
+  cursor: pointer; /* Show pointer on hover */
+  transition: all 0.3s ease; /* Smooth animation */
+}
+
+.pay-button:hover {
+  background-color: #218838; /* Darker green on hover */
+  transform: scale(1.05); /* Slightly increase size */
+}

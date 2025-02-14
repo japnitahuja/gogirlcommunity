@@ -19,16 +19,22 @@ function App() {
     }
 
     async function displayRazorpay() {
+
+        console.log("button clicked");
         const res = await loadScript(
             "https://checkout.razorpay.com/v1/checkout.js"
         );
+
+        console.log(res);
 
         if (!res) {
             alert("Razorpay SDK failed to load. Are you online?");
             return;
         }
 
-        const result = await axios.post("http://localhost:5000/payment/orders");
+        const result = await axios.post("payment/orders");
+
+        console.log("result",result);
 
         if (!result) {
             alert("Server error. Are you online?");
@@ -53,9 +59,9 @@ function App() {
                     razorpaySignature: response.razorpay_signature,
                 };
 
-                const result = await axios.post("http://localhost:5000/payment/success", data);
+                // const result = await axios.post("payment/success", data);
 
-                alert(result.data.msg);
+                // alert(result.data.msg);
             },
             prefill: {
                 name: "Soumya Dey",
@@ -79,7 +85,7 @@ function App() {
             <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo" />
                 <p>Buy React now!</p>
-                <button className="App-link" onClick={displayRazorpay}>
+                <button className="pay-button" onClick={displayRazorpay}>
                     Pay ₹500
                 </button>
             </header>
