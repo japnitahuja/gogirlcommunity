@@ -43,8 +43,17 @@ function App() {
 
         const { amount, id: order_id, currency } = result.data;
 
+        console.log(process.env.REACT_APP_ENV)
+        if (process.env.REACT_APP_ENV == "live") {
+            var razorpay_key = process.env.REACT_APP_RAZORPAY_LIVE_KEY_ID;
+            console.log("razorpay_key",razorpay_key);
+        } else {
+            var razorpay_key = process.env.REACT_APP_RAZORPAY_KEY_ID;
+            console.log("razorpay_key",razorpay_key);
+        }
+
         const options = {
-            key: process.env.REACT_APP_RAZORPAY_KEY_ID,
+            key: razorpay_key,
             amount: amount.toString(),
             currency: currency,
             name: "Soumya Corp.",

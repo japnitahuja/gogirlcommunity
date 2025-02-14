@@ -7,13 +7,26 @@ const router = express.Router();
 
 router.post("/orders", async (req, res) => {
 try {
+
+    console.log(process.env.ENV);
+
+    if (process.env.ENV == "live") {
+      var razorpay_key = process.env.RAZORPAY_LIVE_KEY_ID;
+      var razorpay_secret = process.env.RAZORPAY_LIVE_SECRET;
+    } else {
+      var razorpay_key = process.env.RAZORPAY_KEY_ID;
+      var razorpay_secret = process.env.RAZORPAY_SECRET;
+    }
+
+    console.log(`key_id: ${razorpay_key}, key_secret: ${razorpay_secret}`);
+
     const instance = new Razorpay({
-        key_id: process.env.RAZORPAY_KEY_ID,
-        key_secret: process.env.RAZORPAY_SECRET,
+        key_id: razorpay_key,
+        key_secret: razorpay_secret,
     });
 
     const options = {
-        amount: 50000, // amount in smallest currency unit
+        amount: 500, // amount in smallest currency unit
         currency: "INR",
         receipt: "receipt_order_74394",
     };
@@ -46,9 +59,17 @@ router.post("/success", async (req, res) => {
       return res.status(400).json({ msg: "Transaction is not legit!" });
     }
 
+    if (process.env.ENV == "live") {
+      var razorpay_key = process.env.RAZORPAY_LIVE_KEY_ID;
+      var razorpay_secret = process.env.RAZORPAY_LIVE_SECRET;
+    } else {
+      var razorpay_key = process.env.RAZORPAY_KEY_ID;
+      var razorpay_secret = process.env.RAZORPAY_SECRET;
+    }
+
     const instance = new Razorpay({
-      key_id: process.env.RAZORPAY_KEY_ID,
-      key_secret: process.env.RAZORPAY_SECRET,
+      key_id: razorpay_key,
+      key_secret: razorpay_secret,
     });
 
     instance.payments.capture(razorpay_payment_id, orderAmount, "INR")
