@@ -2,186 +2,19 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import axios from "axios";
+import RazorpayPayment from "./components/RazorpayPayment";
+import { UserInfo } from "./components/UserInfo";
 
 function App() {
-    function loadScript(src) {
-        return new Promise((resolve) => {
-            const script = document.createElement("script");
-            script.src = src;
-            script.onload = () => {
-                resolve(true);
-            };
-            script.onerror = () => {
-                resolve(false);
-            };
-            document.body.appendChild(script);
-        });
-    }
-
-    async function displayRazorpay(e) {
-
-        console.log("button clicked");
-        const res = await loadScript(
-            "https://checkout.razorpay.com/v1/checkout.js"
-        );
-
-        console.log(res);
-
-        if (!res) {
-            alert("Razorpay SDK failed to load. Are you online?");
-            return;
-        }
-
-        const result = await axios.post("payment/orders");
-
-        console.log("result",result);
-
-        if (!result) {
-            alert("Server error. Are you online?");
-            return;
-        }
-
-        const { amount, id: order_id, currency } = result.data;
-
-        console.log(process.env.REACT_APP_ENV)
-        if (process.env.REACT_APP_ENV == "live") {
-            var razorpay_key = process.env.REACT_APP_RAZORPAY_LIVE_KEY_ID;
-            console.log("razorpay_key",razorpay_key);
-        } else {
-            var razorpay_key = process.env.REACT_APP_RAZORPAY_KEY_ID;
-            console.log("razorpay_key",razorpay_key);
-        }
-
-        const options = {
-            key: razorpay_key,
-            amount: amount.toString(),
-            currency: currency,
-            name: "Soumya Corp.",
-            description: "Test Transaction",
-            image: { logo },
-            order_id: order_id,
-            handler: async function (response) {
-                const data = {
-                    orderCreationId: order_id,
-                    razorpay_payment_id: response.razorpay_payment_id,
-                    razorpay_order_id: response.razorpay_order_id,
-                    razorpay_signature: response.razorpay_signature,
-                    orderAmount: amount,
-                };
-
-                console.log(data);
-
-                const result = await axios.post("payment/success", data);
-
-                alert(result.data.msg);
-            },
-            prefill: {
-                name: "Soumya Dey",
-                email: "SoumyaDey@example.com",
-                contact: "9999999999",
-            },
-            notes: {
-                address: "Soumya Dey Corporate Office",
-            },
-            theme: {
-                color: "#61dafb",
-            },
-        };
-
-        const paymentObject = new window.Razorpay(options);
-        paymentObject.open();
-    }
-
-    async function subscribe(e) {
-
-        console.log("button clicked");
-        const res = await loadScript(
-            "https://checkout.razorpay.com/v1/checkout.js"
-        );
-
-        console.log(res);
-
-        if (!res) {
-            alert("Razorpay SDK failed to load. Are you online?");
-            return;
-        }
-
-        const result = await axios.post("payment/subscriptions");
-
-        console.log("result",result);
-
-        if (!result) {
-            alert("Server error. Are you online?");
-            return;
-        }
-
-        const { id: subscription_id, } = result.data;
-
-        console.log("result",result.data);
-
-        console.log(process.env.REACT_APP_ENV)
-        if (process.env.REACT_APP_ENV == "live") {
-            var razorpay_key = process.env.REACT_APP_RAZORPAY_LIVE_KEY_ID;
-            console.log("razorpay_key",razorpay_key);
-        } else {
-            var razorpay_key = process.env.REACT_APP_RAZORPAY_KEY_ID;
-            console.log("razorpay_key",razorpay_key);
-        }
-
-        var options = {
-            "key": razorpay_key,
-            "subscription_id": subscription_id,
-            "name": "Acme Corp.",
-            "description": "Monthly Test Plan",
-            "image": "/your_logo.jpg",
-            handler: async function (response) {
-                const data = {
-                    orderCreationId: subscription_id,
-                    razorpay_payment_id: response.razorpay_payment_id,
-                    razorpay_order_id: response.razorpay_subscription_id,
-                    razorpay_signature: response.razorpay_signature,
-                    // orderAmount: amount,
-                };
-
-                console.log(data);
-
-                const result = await axios.post("payment/success", data);
-
-                alert(result.data.msg);
-            },
-            "prefill": {
-                "name": "Gaurav Kumar",
-                "email": "gaurav.kumar@example.com",
-                "contact": "+919876543210"
-            },
-            "notes": {
-                "note_key_1": "Tea. Earl Grey. Hot",
-                "note_key_2": "Make it so."
-            },
-            "theme": {
-                "color": "#F37254"
-            }
-        };
-
-        const paymentObject = new window.Razorpay(options);
-        paymentObject.open();
-    }
-
-    return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>Buy React now!</p>
-                <button className="pay-button" onClick={displayRazorpay}>
-                    Pay ₹500
-                </button>
-                <br></br>
-                <button className="pay-button" onClick={subscribe}>
-                    subscription
-                </button>
-            </header>
-        </div>
-    );
+  return (
+    <div className="App flex-container">
+      <header className="flex-container">
+        <p>Welcome to Go Girl Community!</p>
+        <UserInfo />
+        {/* <RazorpayPayment /> */}
+      </header>
+    </div>
+  );
 }
 
 export default App;
