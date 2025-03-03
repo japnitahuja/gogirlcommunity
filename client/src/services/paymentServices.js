@@ -27,9 +27,9 @@ export async function handleSubscription(formData) {
     const options = {
         key: process.env.REACT_APP_RAZORPAY_KEY_ID,
         subscription_id: result.data.id,
-        name: "Your Community",
+        name: "Go Girl Community",
         description: "Community Subscription",
-        prefill: {
+        prefill : {
             name: formData.name,
             email: formData.email,
             contact: formData.whatsapp,
