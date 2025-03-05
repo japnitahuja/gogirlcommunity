@@ -64,9 +64,10 @@ router.post("/subscriptions", async (req, res) => {
       });
 
       const oneMonthFromNow = Math.floor(Date.now() / 1000) + (30 * 24 * 60 * 60);
-  
+      const plan_id = process.env.PLAN_ID;
+      console.log("aqsa plan_id", plan_id);
       const options = {
-        plan_id: "plan_PvSXyQU8VoL6zb",
+        plan_id: plan_id,
         customer_notify: 1,
         quantity: 1,
         total_count: 12,
