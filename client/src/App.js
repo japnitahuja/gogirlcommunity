@@ -155,6 +155,13 @@ function App() {
                                     required
                                 />
                                 <input
+                                    type="tel"
+                                    name="phone"
+                                    value={formData.phone}
+                                    onChange={handleChange}
+                                    placeholder="Phone No."
+                                />
+                                <input
                                     type="email"
                                     name="email"
                                     value={formData.email}
