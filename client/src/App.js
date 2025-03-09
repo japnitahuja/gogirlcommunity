@@ -127,7 +127,7 @@ function App() {
                         <img src={ggLogo} alt="Go Girl Community" className="gg-logo" />
                     </div>
                     <div className="social-links">
-                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+                        <a href="https://www.instagram.com/thegogirlcommunity/" target="_blank" rel="noopener noreferrer">
                             <img src={instagramLogo} alt="Instagram" className="instagram-icon" />
                         </a>
                     </div>
