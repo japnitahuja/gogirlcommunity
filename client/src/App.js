@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import "./App.css";
 import axios from "axios";
-import instagramLogo from "./assets/instagram-logo.svg";
+// Import your logos
+// You'll need to add these to your assets folder
 import ggLogo from "./assets/gg-logo.png";
+import instagramLogo from "./assets/instagram-logo.svg";
 import expediaLogo from "./assets/expedia.png";
 import googleLogo from "./assets/google.png";
 import amazonLogo from "./assets/amazon.png";
 import bnyLogo from "./assets/bny.png";
 import microsoftLogo from "./assets/microsoft.png";
-import communityLogo from "./assets/community-members.jpeg";
+import communityImage from "./assets/community-members.jpeg";
 
 function App() {
     const [formData, setFormData] = useState({
@@ -85,8 +87,8 @@ function App() {
             amount: amount.toString(),
             currency: currency,
             name: "Go Girl! Community",
-            description: "Monthly Subscription",
-            image: { ggLogo }, // Using Go Girl logo
+            description: "One Month Free Trial",
+            image: ggLogo,
             order_id: order_id,
             handler: async function (response) {
                 const data = {
@@ -103,13 +105,13 @@ function App() {
             prefill: {
                 name: formData.name,
                 email: formData.email,
-                contact: "", // You might want to add a phone field to your form
+                contact: "",
             },
             notes: {
                 address: "Go Girl! Community Headquarters",
             },
             theme: {
-                color: "#b19cd9", // Matching your purple theme
+                color: "#b19cd9",
             },
         };
 
@@ -118,11 +120,11 @@ function App() {
     }
 
     return (
-        <div className="app-container">
-            <div className="main-content">
-                <header className="header">
-                    <div className="logo">
-                        <img src={ggLogo} alt="Go Girl! Community" className="gg-logo" />
+        <div className="landing-page">
+            <div className="page-content">
+                <header>
+                    <div className="logo-container">
+                        <img src={ggLogo} alt="Go Girl Community" className="gg-logo" />
                     </div>
                     <div className="social-links">
                         <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
@@ -131,19 +133,18 @@ function App() {
                     </div>
                 </header>
 
-                <div className="content-container">
-                    <div className="left-content">
-                        <h2 className="main-heading">Join the<br />Community</h2>
+                <main>
+                    <div className="left-section">
+                        <h1 className="main-heading">Join the<br />Community</h1>
                         <p className="promo-text">Claim your One Month<br />Free Trial now!</p>
-                        <div className="community-image">
-                            {/* Replace with your actual community image */}
-                            <img src={communityLogo} alt="Community members" />
+                        <div className="community-image-container">
+                            <img src={communityImage} alt="Community members" className="community-image" />
                         </div>
                     </div>
 
-                    <div className="right-content">
-                        <div className="signup-form-container">
-                            <h3 className="form-heading">Sign up <span className="highlight">here</span>.</h3>
+                    <div className="right-section">
+                        <div className="signup-form-wrapper">
+                            <h2 className="form-heading">Sign up <span className="here-text">here</span>.</h2>
                             <form onSubmit={handleSubmit} className="signup-form">
                                 <input
                                     type="text"
@@ -172,18 +173,18 @@ function App() {
                             </form>
                         </div>
                     </div>
-                </div>
+                </main>
 
-                <div className="companies-section">
+                <footer>
                     <p className="companies-text">join members from companies like</p>
                     <div className="company-logos">
-                        <img src={expediaLogo} alt="Expedia" className="company-logo" />
+                        <img src={expediaLogo} alt="Expedia Group" className="company-logo" />
                         <img src={googleLogo} alt="Google" className="company-logo" />
                         <img src={amazonLogo} alt="Amazon" className="company-logo" />
                         <img src={bnyLogo} alt="BNY" className="company-logo" />
                         <img src={microsoftLogo} alt="Microsoft" className="company-logo" />
                     </div>
-                </div>
+                </footer>
             </div>
         </div>
     );
