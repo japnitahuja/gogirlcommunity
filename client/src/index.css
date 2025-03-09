@@ -1,30 +1,181 @@
-body {
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/* Reset default styles */
+* {
+  box-sizing: border-box;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.app-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #b19cd9 0%, #ffefd5 100%);
+  font-family: 'Montserrat', sans-serif, 'Playfair-Display'; /* Default font for the app */
 }
 
-
-.pay-button {
-  font-size: 20px; /* Make text bigger */
-  padding: 15px 30px; /* Add more padding */
-  background-color: #28a745; /* Green color */
-  color: white; /* White text */
-  border: none; /* Remove border */
-  border-radius: 8px; /* Smooth edges */
-  cursor: pointer; /* Show pointer on hover */
-  transition: all 0.3s ease; /* Smooth animation */
+.main-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-.pay-button:hover {
-  background-color: #218838; /* Darker green on hover */
-  transform: scale(1.05); /* Slightly increase size */
+/* Header styles */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+/* Logo sizing */
+.gg-logo {
+  height: 200px;
+  width: auto;
+}
+
+.social-links {
+  display: flex;
+}
+
+.instagram-icon {
+  width: 30px;
+  height: 30px;
+}
+
+/* Content container styles */
+.content-container {
+  display: flex;
+  margin: 40px 0;
+}
+
+.left-content {
+  flex: 1;
+  padding-right: 40px;
+}
+
+.right-content {
+  flex: 1;
+}
+
+.main-heading {
+  font-family: 'Playfair Display', serif; /* Heading font */
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.promo-text {
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+  font-weight: 500;
+}
+
+.community-image img {
+  max-width: 100%;
+  border-radius: 10px;
+}
+
+/* Form styles */
+.signup-form-container {
+  background-color: white;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.form-heading {
+  font-family: 'Playfair Display', serif; /* Form heading font */
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+.highlight {
+  font-style: italic;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.signup-form input {
+  margin-bottom: 15px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.signup-button {
+  background-color: #b19cd9;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.signup-button:hover {
+  background-color: #9c84c9;
+}
+
+/* Companies section styles */
+.companies-section {
+  margin-top: 60px;
+  background-color: #ffefd5;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.companies-text {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.company-logos {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.company-logo {
+  height: 30px;
+  margin: 10px 20px;
+  object-fit: contain;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .content-container {
+    flex-direction: column;
+  }
+
+  .left-content {
+    padding-right: 0;
+    margin-bottom: 40px;
+  }
+
+  .main-heading {
+    font-size: 2.5rem;
+  }
+  
+  .company-logo {
+    height: 25px;
+    margin: 10px;
+  }
 }

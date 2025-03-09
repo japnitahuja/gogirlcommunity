@@ -1,9 +1,43 @@
-import React from "react";
-import logo from "./logo.svg";
+import React, { useState } from "react";
 import "./App.css";
 import axios from "axios";
+import instagramLogo from "./assets/instagram-logo.svg";
+import ggLogo from "./assets/gg-logo.png";
+import expediaLogo from "./assets/expedia.png";
+import googleLogo from "./assets/google.png";
+import amazonLogo from "./assets/amazon.png";
+import bnyLogo from "./assets/bny.png";
+import microsoftLogo from "./assets/microsoft.png";
+import communityLogo from "./assets/community-members.jpeg";
 
 function App() {
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        company: ""
+    });
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        try {
+            // You can replace this with your actual signup API endpoint
+            const response = await axios.post("/api/signup", formData);
+            console.log("Signup successful:", response.data);
+            // After successful signup, you might want to redirect or show the payment options
+            displayRazorpay();
+        } catch (error) {
+            console.error("Signup failed:", error);
+        }
+    };
+
     function loadScript(src) {
         return new Promise((resolve) => {
             const script = document.createElement("script");
@@ -18,14 +52,11 @@ function App() {
         });
     }
 
-    async function displayRazorpay(e) {
-
+    async function displayRazorpay() {
         console.log("button clicked");
         const res = await loadScript(
             "https://checkout.razorpay.com/v1/checkout.js"
         );
-
-        console.log(res);
 
         if (!res) {
             alert("Razorpay SDK failed to load. Are you online?");
@@ -34,8 +65,6 @@ function App() {
 
         const result = await axios.post("payment/orders");
 
-        console.log("result",result);
-
         if (!result) {
             alert("Server error. Are you online?");
             return;
@@ -43,22 +72,21 @@ function App() {
 
         const { amount, id: order_id, currency } = result.data;
 
-        console.log(process.env.REACT_APP_ENV)
-        if (process.env.REACT_APP_ENV == "live") {
-            var razorpay_key = process.env.REACT_APP_RAZORPAY_LIVE_KEY_ID;
-            console.log("razorpay_key",razorpay_key);
+        console.log(process.env.REACT_APP_ENV);
+        let razorpay_key;
+        if (process.env.REACT_APP_ENV === "live") {
+            razorpay_key = process.env.REACT_APP_RAZORPAY_LIVE_KEY_ID;
         } else {
-            var razorpay_key = process.env.REACT_APP_RAZORPAY_KEY_ID;
-            console.log("razorpay_key",razorpay_key);
+            razorpay_key = process.env.REACT_APP_RAZORPAY_KEY_ID;
         }
 
         const options = {
             key: razorpay_key,
             amount: amount.toString(),
             currency: currency,
-            name: "Soumya Corp.",
-            description: "Test Transaction",
-            image: { logo },
+            name: "Go Girl! Community",
+            description: "Monthly Subscription",
+            image: { ggLogo }, // Using Go Girl logo
             order_id: order_id,
             handler: async function (response) {
                 const data = {
@@ -69,98 +97,20 @@ function App() {
                     orderAmount: amount,
                 };
 
-                console.log(data);
-
                 const result = await axios.post("payment/success", data);
-
                 alert(result.data.msg);
             },
             prefill: {
-                name: "Soumya Dey",
-                email: "SoumyaDey@example.com",
-                contact: "9999999999",
+                name: formData.name,
+                email: formData.email,
+                contact: "", // You might want to add a phone field to your form
             },
             notes: {
-                address: "Soumya Dey Corporate Office",
+                address: "Go Girl! Community Headquarters",
             },
             theme: {
-                color: "#61dafb",
+                color: "#b19cd9", // Matching your purple theme
             },
-        };
-
-        const paymentObject = new window.Razorpay(options);
-        paymentObject.open();
-    }
-
-    async function subscribe(e) {
-
-        console.log("button clicked");
-        const res = await loadScript(
-            "https://checkout.razorpay.com/v1/checkout.js"
-        );
-
-        console.log(res);
-
-        if (!res) {
-            alert("Razorpay SDK failed to load. Are you online?");
-            return;
-        }
-
-        const result = await axios.post("payment/subscriptions");
-
-        console.log("result",result);
-
-        if (!result) {
-            alert("Server error. Are you online?");
-            return;
-        }
-
-        const { id: subscription_id, } = result.data;
-
-        console.log("result",result.data);
-
-        console.log(process.env.REACT_APP_ENV)
-        if (process.env.REACT_APP_ENV == "live") {
-            var razorpay_key = process.env.REACT_APP_RAZORPAY_LIVE_KEY_ID;
-            console.log("razorpay_key",razorpay_key);
-        } else {
-            var razorpay_key = process.env.REACT_APP_RAZORPAY_KEY_ID;
-            console.log("razorpay_key",razorpay_key);
-        }
-
-        var options = {
-            "key": razorpay_key,
-            "subscription_id": subscription_id,
-            "name": "Acme Corp.",
-            "description": "Monthly Test Plan",
-            "image": "/your_logo.jpg",
-            handler: async function (response) {
-                const data = {
-                    orderCreationId: subscription_id,
-                    razorpay_payment_id: response.razorpay_payment_id,
-                    razorpay_order_id: response.razorpay_subscription_id,
-                    razorpay_signature: response.razorpay_signature,
-                    // orderAmount: amount,
-                };
-
-                console.log(data);
-
-                const result = await axios.post("payment/success", data);
-
-                alert(result.data.msg);
-            },
-            "prefill": {
-                "name": "Gaurav Kumar",
-                "email": "gaurav.kumar@example.com",
-                "contact": "+919876543210"
-            },
-            "notes": {
-                "note_key_1": "Tea. Earl Grey. Hot",
-                "note_key_2": "Make it so."
-            },
-            "theme": {
-                "color": "#F37254"
-            }
         };
 
         const paymentObject = new window.Razorpay(options);
@@ -168,18 +118,73 @@ function App() {
     }
 
     return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>Buy React now!</p>
-                <button className="pay-button" onClick={displayRazorpay}>
-                    Pay ₹500
-                </button>
-                <br></br>
-                <button className="pay-button" onClick={subscribe}>
-                    subscription
-                </button>
-            </header>
+        <div className="app-container">
+            <div className="main-content">
+                <header className="header">
+                    <div className="logo">
+                        <img src={ggLogo} alt="Go Girl! Community" className="gg-logo" />
+                    </div>
+                    <div className="social-links">
+                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+                            <img src={instagramLogo} alt="Instagram" className="instagram-icon" />
+                        </a>
+                    </div>
+                </header>
+
+                <div className="content-container">
+                    <div className="left-content">
+                        <h2 className="main-heading">Join the<br />Community</h2>
+                        <p className="promo-text">Claim your One Month<br />Free Trial now!</p>
+                        <div className="community-image">
+                            {/* Replace with your actual community image */}
+                            <img src={communityLogo} alt="Community members" />
+                        </div>
+                    </div>
+
+                    <div className="right-content">
+                        <div className="signup-form-container">
+                            <h3 className="form-heading">Sign up <span className="highlight">here</span>.</h3>
+                            <form onSubmit={handleSubmit} className="signup-form">
+                                <input
+                                    type="text"
+                                    name="name"
+                                    value={formData.name}
+                                    onChange={handleChange}
+                                    placeholder="Name"
+                                    required
+                                />
+                                <input
+                                    type="email"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    placeholder="Email"
+                                    required
+                                />
+                                <input
+                                    type="text"
+                                    name="company"
+                                    value={formData.company}
+                                    onChange={handleChange}
+                                    placeholder="Company"
+                                />
+                                <button type="submit" className="signup-button">Sign Up</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="companies-section">
+                    <p className="companies-text">join members from companies like</p>
+                    <div className="company-logos">
+                        <img src={expediaLogo} alt="Expedia" className="company-logo" />
+                        <img src={googleLogo} alt="Google" className="company-logo" />
+                        <img src={amazonLogo} alt="Amazon" className="company-logo" />
+                        <img src={bnyLogo} alt="BNY" className="company-logo" />
+                        <img src={microsoftLogo} alt="Microsoft" className="company-logo" />
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
