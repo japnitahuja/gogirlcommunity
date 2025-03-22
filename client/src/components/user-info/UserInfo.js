@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import "../App.css";
-import logo from "../assets/logo.svg";
+import "../../App.css";
+import logo from "../../assets/logo.svg";
 import axios from "axios";
-import { handleSubscription } from "../services/paymentServices";
+import { handleSubscription } from "../../services/paymentServices";
 
-export const UserInfo = () => {
+const UserInfo = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -43,7 +43,7 @@ export const UserInfo = () => {
   
         console.log("Google Sheets API Response:", sheetsResponse.data);
         await handleSubscription(formData);
-  
+        console.log('hi happening');
       } catch (error) {
         console.error("Error submitting data", error);
         alert("Submission failed. Please try again.");
@@ -108,3 +108,5 @@ export const UserInfo = () => {
     </div>
   );
 };
+
+export default UserInfo;

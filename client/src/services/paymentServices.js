@@ -16,7 +16,7 @@ export async function handleSubscription(formData) {
         alert("Failed to load Razorpay SDK.");
         return;
     }
-
+    console.log('razoprpay id', process.env.REACT_APP_RAZORPAY_KEY_ID);
     const result = await axios.post("/payment/subscriptions", { user: formData });
 
     if (!result) {
@@ -25,7 +25,7 @@ export async function handleSubscription(formData) {
     }
 
     const options = {
-        key: process.env.REACT_APP_RAZORPAY_KEY_ID,
+        key: process.env.REACT_APP_RAZORPAY_LIVE_KEY_ID,
         subscription_id: result.data.id,
         name: "Go Girl Community",
         description: "Community Subscription",
