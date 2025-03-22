@@ -28,7 +28,6 @@
 
 /* Header styles */
 header {
-
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -45,14 +44,12 @@ header {
 .gg-logo {
   width: auto;
   height: 190px;
-
 }
 
 
 
 .instagram-icon {
   margin-top: -50px;
-
   width: 30px;
   height: 30px;
 }
@@ -179,7 +176,6 @@ footer {
 .companies-text {
   font-size: 18px;
   margin-bottom: 20px;
-
   color: #333;
   font-family: 'Playfair Display', serif;
 }
@@ -218,22 +214,18 @@ footer {
   main {
     flex-direction: column;
   }
-
   .left-section, .right-section {
     width: 100%;
     padding-right: 0;
     margin-bottom: 40px;
   }
-
   .right-section {
     justify-content: center;
   }
-
   footer {
     position: relative;
     margin-top: 60px;
   }
-
   .signup-form-wrapper {
     max-width: 100%;
   }

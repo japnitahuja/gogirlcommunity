@@ -1,3 +1,4 @@
+import React from "react";
 import "./App.css";
 // Import existing components
 import { UserInfo } from "./components/UserInfo";
