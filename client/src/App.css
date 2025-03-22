@@ -1,79 +1,240 @@
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f2e8f1; 
+/* Reset default styles */
+* {
+  box-sizing: border-box;
   margin: 0;
-  padding: 20px;
+  padding: 0;
+}
+
+/* Import custom fonts */
+@import url("https://fonts.googleapis.com/css?family=Playfair+Display:400,700,400italic");
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500");
+
+/* Main container */
+.landing-page {
+  min-height: 100vh;
+  background: radial-gradient(circle, #FEF6B7, #E6D4FE);
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 }
 
-.container {
-  text-align: center;
+.page-content {
   width: 100%;
-  max-width: 400px;
-  background: #fff;
+  max-width: 1100px; 
+  height: 800px; 
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
-.logo {
-  width: 80px; 
-  height: auto;
-  margin-bottom: 15px;
+/* Header styles */
+header {
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  margin-bottom: -25px;
 }
 
-h2 {
-  color: #333;
-  margin-bottom: 15px;
+.logo-container {
+  margin-top: -50px;
+  display: flex;
+  align-items: center;
 }
 
-.flex-container {
+.gg-logo {
+  width: auto;
+  height: 190px;
+
+}
+
+
+
+.instagram-icon {
+  margin-top: -50px;
+
+  width: 30px;
+  height: 30px;
+}
+
+/* Main content layout */
+main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.left-section {
+  width: 50%;
+  padding-right: 40px;
+}
+
+.right-section {
+  width: 50%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+
+/* Headings and text styles */
+.main-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 64px;
+  line-height: 1.1;
+  color: #000;
+  margin-bottom: 12px;
+  font-weight: normal;
+}
+
+.promo-text {
+  color: #000000;
+  font-family: "Montserrat", Helvetica;
+  font-size: 30px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 45px;
+}
+
+.community-image-container {
+  width: 100%;
+  margin-top: -63px;
+  margin-left: -120px;
+}
+
+.community-image {
+  width: auto;
+  height: 653px;
+  width: 730px;
+  height: 400px;
+  object-fit: cover;
+  mix-blend-mode: multiply;
+}
+
+/* Sign up form styles */
+.signup-form-wrapper {
+  background-color: white;
+  border-radius: 25px;
+  padding: 30px;
+  width: 100%;
+  max-width: 550px;
+  margin-top: -119px;
+  box-shadow: 0px 2px 6px 2px #00000026, 0px 1px 2px #0000004c;
+}
+
+.form-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  margin-bottom: 30px;
+  font-weight: normal;
+  text-align: center;
+}
+
+.here-text {
+  font-style: italic;
+}
+
+.signup-form {
   display: flex;
   flex-direction: column;
+}
+
+.signup-form input {
+  padding: 15px;
   margin-bottom: 15px;
-  text-align: left;
-}
-
-label {
-  font-size: 14px;
-  margin-bottom: 5px;
-  color: #333;
-}
-
-input {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 14px;
-  outline: none;
-  transition: 0.3s;
-}
-
-input:focus {
-  border-color: #f2e8f1;
-  box-shadow: 0 0 5px rgba(106, 13, 173, 0.3);
-}
-
-button {
-  background: #c358b8;
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 4px;
+  border: 1px solid #969696;
+  border-radius: 5px;
   font-size: 16px;
+  font-family: 'Montserrat', Helvetica;
+}
+
+.signup-button {
+  padding: 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #E6D4FE;
+  color: white;
+  font-size: 16px;
+  font-family: 'Montserrat', Helvetica;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background-color 0.3s;
+  margin-top: 10px;
 }
 
-button:hover {
-  background: #540caa;
+.signup-button:hover {
+  background-color: #9d89c4;
 }
 
-.text-red-500 {
-  color: red;
-  font-size: 12px;
-  margin-top: 4px;
+/* Footer styles */
+footer {
+  margin-top: 26px;
+  padding: 40px;
+  width: 100%;
+  background-color: #fff9cd;
+
+  text-align: center;
+}
+
+.companies-text {
+  font-size: 18px;
+  margin-bottom: 20px;
+
+  color: #333;
+  font-family: 'Playfair Display', serif;
+}
+
+.company-logos {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.company-logo {
+  height: 60px;
+  margin: 0 20px;
+  mix-blend-mode: multiply;
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+  .page-content {
+    height: auto;
+  }
+
+  .main-heading {
+    font-size: 48px;
+  }
+
+  .promo-text {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  main {
+    flex-direction: column;
+  }
+
+  .left-section, .right-section {
+    width: 100%;
+    padding-right: 0;
+    margin-bottom: 40px;
+  }
+
+  .right-section {
+    justify-content: center;
+  }
+
+  footer {
+    position: relative;
+    margin-top: 60px;
+  }
+
+  .signup-form-wrapper {
+    max-width: 100%;
+  }
 }
