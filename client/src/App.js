@@ -1,8 +1,8 @@
 import React from "react";
 import "./App.css";
-// Import existing components
-import { UserInfo } from "./components/UserInfo";
-// Import logos and images
+
+import { UserInfo } from './components';
+
 import logo from "./assets/gg-logo.png";
 import instagramLogo from "./assets/instagram-logo.svg";
 import expediaLogo from "./assets/expedia.png";
