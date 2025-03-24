@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../App.css";
+import "./UserInfo.css";
 import logo from "../../assets/logo.svg";
 import axios from "axios";
 import { handleSubscription } from "../../services/paymentServices";
@@ -54,7 +54,7 @@ const UserInfo = () => {
 
   return (
     <div className="container">
-      <img src={logo} alt="Logo" className="logo" />
+      
       <h2>User Information</h2>
       <form onSubmit={handleSubmit}>
         <div className="flex-container">

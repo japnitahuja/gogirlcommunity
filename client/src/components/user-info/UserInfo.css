@@ -1,0 +1,65 @@
+/* UserInfo.css */
+.container {
+    width: 100%;
+  }
+  
+  .container h2 {
+    display: none; /* Remove the heading as it's not in the design */
+  }
+  
+  .container form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .flex-container {
+    margin-bottom: 15px;
+    width: 100%;
+  }
+  
+  .flex-container label {
+    display: none; /* Hide labels as they're not shown in the design */
+  }
+  
+  .flex-container input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #969696;
+    border-radius: 5px;
+    font-size: 16px;
+    font-family: 'Montserrat', Helvetica;
+    margin-bottom: 0;
+  }
+  
+  .flex-container .text-red-500 {
+    color: #ff0000;
+    font-size: 12px;
+    margin-top: 5px;
+    font-family: 'Montserrat', Helvetica;
+  }
+  
+  .container button {
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #E6D4FE;
+    color: #333; /* Text color appears dark in the design */
+    font-size: 16px;
+    font-family: 'Montserrat', Helvetica;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+    width: 100%;
+  }
+  
+  .container button:hover {
+    background-color: #9d89c4;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .container {
+      width: 100%;
+    }
+  }
