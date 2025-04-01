@@ -6,11 +6,10 @@ const crypto = require("crypto");
 const path = require("path");
 
 const router = express.Router();
-let subscriptions = {}; // Local storage for subscriptions
+let subscriptions = {};
 
 router.post("/orders", async (req, res) => {
   try {
-    console.log("-------->process env", process.env.ENV);
 
     const razorpay_key =
       process.env.ENV == "live"
@@ -20,9 +19,6 @@ router.post("/orders", async (req, res) => {
       process.env.ENV == "live"
         ? process.env.RAZORPAY_LIVE_SECRET
         : process.env.RAZORPAY_SECRET;
-
-    console.log(`key_id: ${razorpay_key}, key_secret: ${razorpay_secret}`);
-
     const instance = new Razorpay({
       key_id: razorpay_key,
       key_secret: razorpay_secret,
@@ -46,7 +42,6 @@ router.post("/subscriptions", async (req, res) => {
   try {
     const { email } = req.body.user;
 
-    console.log("Creating Subscription...", req.body.user);
     const razorpay_key =
       process.env.ENV === "live"
         ? process.env.RAZORPAY_LIVE_KEY_ID
@@ -76,10 +71,7 @@ router.post("/subscriptions", async (req, res) => {
     };
 
     const subscription = await instance.subscriptions.create(options);
-    console.log("✅ Subscription Created:", subscription.id);
 
-    console.log('rowwwww', email);
-    // ✅ Write subscription ID to Google Sheet
     const auth = new google.auth.GoogleAuth({
       keyFile: path.resolve(__dirname, "../config/sheet.json"),
       scopes: "https://www.googleapis.com/auth/spreadsheets",
@@ -99,7 +91,7 @@ router.post("/subscriptions", async (req, res) => {
     const subscriptionIdColIndex = headerRow.indexOf("Subscription ID");
 
     const userRowIndex = rows.findIndex((row, index) => {
-      if (index === 0) return false; // skip header
+      if (index === 0) return false;
       return row[emailColIndex] === email;
     });
 
@@ -107,7 +99,6 @@ router.post("/subscriptions", async (req, res) => {
       return res.status(404).json({ msg: "❌ Email not found in sheet" });
     }
 
-    // Update cell with subscription ID
     const cellToUpdate = `${String.fromCharCode(65 + subscriptionIdColIndex)}${userRowIndex + 1}`;
     await googleSheets.spreadsheets.values.update({
       spreadsheetId,
@@ -118,21 +109,18 @@ router.post("/subscriptions", async (req, res) => {
       },
     });
 
-    console.log(`✅ Updated Google Sheet cell ${cellToUpdate} with subscription ID`);
 
     res.json({
       message: "Subscription created and written to sheet",
       subscription_id: subscription.id,
     });
   } catch (error) {
-    console.log("🔥 Error in /subscriptions:", error);
     res.status(500).send("Error creating subscription");
   }
 });
 
 
 router.post("/success", async (req, res) => {
-  console.log("📝 Full request body:", req.body);
   const { razorpay_payment_id, razorpay_signature, email } = req.body;
 
   if (!razorpay_payment_id || !razorpay_signature || !email) {
@@ -166,9 +154,7 @@ router.post("/success", async (req, res) => {
     }
 
     const storedSubscriptionId = userRow[subscriptionIdColIndex];
-    console.log("✅ Fetched Subscription ID from sheet:", storedSubscriptionId);
 
-    // ✅ Signature verification
     const secret = process.env.RAZORPAY_SECRET;
     const payload = `${razorpay_payment_id}|${storedSubscriptionId}`;
     const sha = crypto.createHmac("sha256", secret);
@@ -181,7 +167,6 @@ router.post("/success", async (req, res) => {
         .json({ msg: "❌ Signature Mismatch! Verification failed." });
     }
 
-    console.log("✅ Payment Verified Successfully!");
     res.json({
       msg: "✅ Success",
       subscriptionId: storedSubscriptionId,

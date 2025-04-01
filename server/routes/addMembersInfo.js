@@ -8,8 +8,6 @@ app.use(express.json()); // Ensure the server can parse JSON requests
 
 app.post("/add-info", async (req, res) => {
   try {
-    console.log("Received POST request to /add-info");
-    console.log("Request Body:", req.body);  
 
     const { name, email, whatsapp, organization } = req.body;
 
