@@ -187,6 +187,7 @@ router.post("/success", async (req, res) => {
       subscriptionId: storedSubscriptionId,
       paymentId: razorpay_payment_id,
     });
+    return
 
   } catch (error) {
     console.error("🔥 Error in /success:", error);

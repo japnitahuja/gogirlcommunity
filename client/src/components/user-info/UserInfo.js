@@ -37,24 +37,32 @@ const UserInfo = () => {
       try {
         const sheetsResponse = await axios.post(
           "http://localhost:8080/add-info",
-          formData, 
+          formData,
           { headers: { "Content-Type": "application/json" } }
         );
-  
+
         console.log("Google Sheets API Response:", sheetsResponse.data);
-        await handleSubscription(formData);
-        console.log('hi happening');
+        const paymentResult = await handleSubscription(formData);
+        console.log("Result from Razorpay success:", paymentResult);
+
+        if (paymentResult.msg === "✅ Success") {
+          setFormData({
+            name: "",
+            email: "",
+            whatsapp: "",
+            organization: "",
+          });
+          setErrors({});
+        }
       } catch (error) {
         console.error("Error submitting data", error);
         alert("Submission failed. Please try again.");
       }
     }
   };
-  
 
   return (
     <div className="container">
-      
       <h2>User Information</h2>
       <form onSubmit={handleSubmit}>
         <div className="flex-container">

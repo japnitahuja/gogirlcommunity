@@ -11,49 +11,51 @@ function loadScript(src) {
 }
 
 export async function handleSubscription(formData) {
-  console.log("aqsa 2");
   const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
   if (!res) {
     alert("Failed to load Razorpay SDK.");
-    return;
+    return { msg: "failed" };
   }
+
   const result = await axios.post("/payment/subscriptions", { user: formData });
-  console.log("aqsa 2", result);
 
   if (!result) {
     alert("Server error. Try again later.");
-    return;
+    return { msg: "failed" };
   }
-  console.log("aqsa 3", result);
 
   const razorpay_key_id =
     process.env.ENV === "live"
       ? process.env.REACT_APP_RAZORPAY_LIVE_KEY_ID
       : process.env.REACT_APP_RAZORPAY_KEY_ID;
-  const options = {
-    key: razorpay_key_id,
-    subscription_id: result.data.subscription_id,
-    name: "Go Girl Community",
-    description: "Community Subscription",
-    prefill: {
-      name: formData.name,
-      email: formData.email,
-      contact: formData.whatsapp,
-    },
-    theme: { color: "#61dafb" },
-    handler: async function (response) {
-      console.log("🔹 Razorpay Response:", response);
-      const data = {
-        subscription_id: response.razorpay_subscription_id,
-        razorpay_payment_id: response.razorpay_payment_id,
-        razorpay_signature: response.razorpay_signature,
-        email: formData.email,
-      };
-      await axios.post("/payment/success", data);
-      alert("Subscription successful!");
-    },
-  };
 
-  const paymentObject = new window.Razorpay(options);
-  paymentObject.open();
+  return new Promise((resolve) => {
+    const options = {
+      key: razorpay_key_id,
+      subscription_id: result.data.subscription_id,
+      name: "Go Girl Community",
+      description: "Community Subscription",
+      prefill: {
+        name: formData.name,
+        email: formData.email,
+        contact: formData.whatsapp,
+      },
+      theme: { color: "#61dafb" },
+      handler: async function (response) {
+        const data = {
+          subscription_id: response.razorpay_subscription_id,
+          razorpay_payment_id: response.razorpay_payment_id,
+          razorpay_signature: response.razorpay_signature,
+          email: formData.email,
+        };
+        const res = await axios.post("/payment/success", data);
+        alert("Subscription successful!");
+        resolve(res.data);
+      },
+    };
+
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
+    paymentObject.on("payment.failed", () => resolve({ msg: "failed" }));
+  });
 }
