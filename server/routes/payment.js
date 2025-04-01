@@ -1,134 +1,198 @@
 require("dotenv").config();
+const { google } = require("googleapis");
 const express = require("express");
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
+const path = require("path");
 
 const router = express.Router();
+let subscriptions = {}; // Local storage for subscriptions
 
 router.post("/orders", async (req, res) => {
-try {
+  try {
+    console.log("-------->process env", process.env.ENV);
 
-    console.log(process.env.ENV);
-
-    if (process.env.ENV == "live") {
-      var razorpay_key = process.env.RAZORPAY_LIVE_KEY_ID;
-      var razorpay_secret = process.env.RAZORPAY_LIVE_SECRET;
-    } else {
-      var razorpay_key = process.env.RAZORPAY_KEY_ID;
-      var razorpay_secret = process.env.RAZORPAY_SECRET;
-    }
+    const razorpay_key =
+      process.env.ENV == "live"
+        ? process.env.RAZORPAY_LIVE_KEY_ID
+        : process.env.RAZORPAY_KEY_ID;
+    const razorpay_secret =
+      process.env.ENV == "live"
+        ? process.env.RAZORPAY_LIVE_SECRET
+        : process.env.RAZORPAY_SECRET;
 
     console.log(`key_id: ${razorpay_key}, key_secret: ${razorpay_secret}`);
 
     const instance = new Razorpay({
-        key_id: razorpay_key,
-        key_secret: razorpay_secret,
+      key_id: razorpay_key,
+      key_secret: razorpay_secret,
     });
 
     const options = {
-        amount: 500, // amount in smallest currency unit
-        currency: "INR",
-        receipt: "receipt_order_74394",
+      amount: 500,
+      currency: "INR",
+      receipt: "receipt_order_74394",
     };
-
     const order = await instance.orders.create(options);
 
-    console.log(order);
-
-    if (!order) return res.status(500).send("Some error occured");
-
+    if (!order) return res.status(500).send("Some error occurred");
     res.json(order);
-} catch (error) {
+  } catch (error) {
     res.status(500).send(error);
-}
+  }
 });
 
 router.post("/subscriptions", async (req, res) => {
   try {
-  
-      console.log(process.env.ENV);
-  
-      if (process.env.ENV == "live") {
-        var razorpay_key = process.env.RAZORPAY_LIVE_KEY_ID;
-        var razorpay_secret = process.env.RAZORPAY_LIVE_SECRET;
-      } else {
-        var razorpay_key = process.env.RAZORPAY_KEY_ID;
-        var razorpay_secret = process.env.RAZORPAY_SECRET;
-      }
-  
-      console.log(`key_id: ${razorpay_key}, key_secret: ${razorpay_secret}`);
-  
-      const instance = new Razorpay({
-          key_id: razorpay_key,
-          key_secret: razorpay_secret,
-      });
+    const { email } = req.body.user;
 
-      const oneMonthFromNow = Math.floor(Date.now() / 1000) + (30 * 24 * 60 * 60);
-      const plan_id = process.env.PLAN_ID;
-      console.log("aqsa plan_id", plan_id);
-      const options = {
-        plan_id: plan_id,
-        customer_notify: 1,
-        quantity: 1,
-        total_count: 12,
-        start_at: oneMonthFromNow,
-        addons: [
-        ],
-        notes: {
-          key1: "value3",
-          key2: "value2"
-        }
-      }
+    console.log("Creating Subscription...", req.body.user);
+    const razorpay_key =
+      process.env.ENV === "live"
+        ? process.env.RAZORPAY_LIVE_KEY_ID
+        : process.env.RAZORPAY_KEY_ID;
+    const razorpay_secret =
+      process.env.ENV === "live"
+        ? process.env.RAZORPAY_LIVE_SECRET
+        : process.env.RAZORPAY_SECRET;
 
-      const subscription = await instance.subscriptions.create(options);
-  
-      console.log(subscription);
-  
-      if (!subscription) return res.status(500).send("Some error occured");
-  
-      res.json(subscription);
+    const instance = new Razorpay({
+      key_id: razorpay_key,
+      key_secret: razorpay_secret,
+    });
+
+    const plan_id =
+      process.env.ENV === "live"
+        ? process.env.PLAN_ID
+        : process.env.PLAN_ID_TEST;
+
+    const options = {
+      plan_id: plan_id,
+      customer_notify: 1,
+      quantity: 1,
+      total_count: 12,
+      addons: [],
+      notes: {},
+    };
+
+    const subscription = await instance.subscriptions.create(options);
+    console.log("✅ Subscription Created:", subscription.id);
+
+    console.log('rowwwww', email);
+    // ✅ Write subscription ID to Google Sheet
+    const auth = new google.auth.GoogleAuth({
+      keyFile: path.resolve(__dirname, "../config/sheet.json"),
+      scopes: "https://www.googleapis.com/auth/spreadsheets",
+    });
+
+    const client = await auth.getClient();
+    const googleSheets = google.sheets({ version: "v4", auth: client });
+    const spreadsheetId = "1Vb9L79fRSQG_WuxtUEe4XjN4Kp_ly3mA6gN66UjzquU";
+
+    const getRows = await googleSheets.spreadsheets.values.get({
+      spreadsheetId,
+      range: "Paid Members!A:Z",
+    });
+    const rows = getRows.data.values;
+    const headerRow = rows[0];
+    const emailColIndex = headerRow.indexOf("Email");
+    const subscriptionIdColIndex = headerRow.indexOf("Subscription ID");
+
+    const userRowIndex = rows.findIndex((row, index) => {
+      if (index === 0) return false; // skip header
+      return row[emailColIndex] === email;
+    });
+
+    if (userRowIndex === -1) {
+      return res.status(404).json({ msg: "❌ Email not found in sheet" });
+    }
+
+    // Update cell with subscription ID
+    const cellToUpdate = `${String.fromCharCode(65 + subscriptionIdColIndex)}${userRowIndex + 1}`;
+    await googleSheets.spreadsheets.values.update({
+      spreadsheetId,
+      range: `Paid Members!${cellToUpdate}`,
+      valueInputOption: "USER_ENTERED",
+      resource: {
+        values: [[subscription.id]],
+      },
+    });
+
+    console.log(`✅ Updated Google Sheet cell ${cellToUpdate} with subscription ID`);
+
+    res.json({
+      message: "Subscription created and written to sheet",
+      subscription_id: subscription.id,
+    });
   } catch (error) {
-      console.log(error);
-      res.status(500).send(error);
+    console.log("🔥 Error in /subscriptions:", error);
+    res.status(500).send("Error creating subscription");
   }
-  });
+});
+
 
 router.post("/success", async (req, res) => {
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, orderAmount } =
-      req.body;
+  console.log("📝 Full request body:", req.body);
+  const { razorpay_payment_id, razorpay_signature, email } = req.body;
 
-    console.log("req body", req.body);
+  if (!razorpay_payment_id || !razorpay_signature || !email) {
+    return res.status(400).json({ msg: "❌ Missing required fields!" });
+  }
 
-    console.log("other")
-    console.log(razorpay_order_id, razorpay_payment_id, razorpay_signature, orderAmount);
-  
-    const sha = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET);
-    sha.update(`${razorpay_order_id}|${razorpay_payment_id}`);
-    const digest = sha.digest("hex");
-    if (digest !== razorpay_signature) {
-      return res.status(400).json({ msg: "Transaction is not legit!" });
+  try {
+    const auth = new google.auth.GoogleAuth({
+      keyFile: path.resolve(__dirname, "../config/sheet.json"),
+      scopes: "https://www.googleapis.com/auth/spreadsheets",
+    });
+
+    const client = await auth.getClient();
+    const googleSheets = google.sheets({ version: "v4", auth: client });
+    const spreadsheetId = "1Vb9L79fRSQG_WuxtUEe4XjN4Kp_ly3mA6gN66UjzquU";
+
+    const getRows = await googleSheets.spreadsheets.values.get({
+      spreadsheetId,
+      range: "Paid Members!A:Z",
+    });
+
+    const rows = getRows.data.values;
+    const headerRow = rows[0];
+    const emailColIndex = headerRow.indexOf("Email");
+    const subscriptionIdColIndex = headerRow.indexOf("Subscription ID");
+
+    const userRow = rows.find(row => row[emailColIndex] === email);
+
+    if (!userRow || !userRow[subscriptionIdColIndex]) {
+      return res.status(400).json({ msg: "❌ Subscription ID not found in sheet!" });
     }
 
-    if (process.env.ENV == "live") {
-      var razorpay_key = process.env.RAZORPAY_LIVE_KEY_ID;
-      var razorpay_secret = process.env.RAZORPAY_LIVE_SECRET;
-    } else {
-      var razorpay_key = process.env.RAZORPAY_KEY_ID;
-      var razorpay_secret = process.env.RAZORPAY_SECRET;
+    const storedSubscriptionId = userRow[subscriptionIdColIndex];
+    console.log("✅ Fetched Subscription ID from sheet:", storedSubscriptionId);
+
+    // ✅ Signature verification
+    const secret = process.env.RAZORPAY_SECRET;
+    const payload = `${razorpay_payment_id}|${storedSubscriptionId}`;
+    const sha = crypto.createHmac("sha256", secret);
+    sha.update(payload);
+    const generated_signature = sha.digest("hex");
+
+    if (generated_signature !== razorpay_signature) {
+      return res
+        .status(400)
+        .json({ msg: "❌ Signature Mismatch! Verification failed." });
     }
 
-    // const instance = new Razorpay({
-    //   key_id: razorpay_key,
-    //   key_secret: razorpay_secret,
-    // });
-
-    // instance.payments.capture(razorpay_payment_id, orderAmount, "INR")
-  
+    console.log("✅ Payment Verified Successfully!");
     res.json({
-      msg: "success",
-      orderId: razorpay_order_id,
+      msg: "✅ Success",
+      subscriptionId: storedSubscriptionId,
       paymentId: razorpay_payment_id,
     });
-  });
+
+  } catch (error) {
+    console.error("🔥 Error in /success:", error);
+    res.status(500).json({ msg: "❌ Internal Server Error" });
+  }
+});
+
 
 module.exports = router;
