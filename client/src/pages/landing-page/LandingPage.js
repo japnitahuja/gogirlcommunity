@@ -14,6 +14,7 @@ import communityImage from "./../../assets/community-members.jpeg";
 
 const LandingPage = () => {
   return (
+    <>
     <div className="landing-page">
       <div className="page-content">
         <header>
@@ -46,19 +47,19 @@ const LandingPage = () => {
             </div>
           </div>
         </main>
-
-        <footer>
-          <p className="companies-text">join members from companies like</p>
-          <div className="company-logos">
-            <img src={expediaLogo} alt="Expedia Group" className="company-logo" />
-            <img src={googleLogo} alt="Google" className="company-logo" />
-            <img src={amazonLogo} alt="Amazon" className="company-logo" />
-            <img src={bnyLogo} alt="BNY" className="company-logo" />
-            <img src={microsoftLogo} alt="Microsoft" className="company-logo" />
-          </div>
-        </footer>
       </div>
     </div>
+    <footer style={{marginTop:0}}>
+      <p className="companies-text">join members from companies like</p>
+      <div className="company-logos">
+        <img src={expediaLogo} alt="Expedia Group" className="company-logo" />
+        <img src={googleLogo} alt="Google" className="company-logo" />
+        <img src={amazonLogo} alt="Amazon" className="company-logo" />
+        <img src={bnyLogo} alt="BNY" className="company-logo" />
+        <img src={microsoftLogo} alt="Microsoft" className="company-logo" />
+      </div>
+    </footer>
+    </>
   );
 }
 
