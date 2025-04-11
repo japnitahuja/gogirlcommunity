@@ -11,7 +11,7 @@ import amazonLogo from "./../../assets/amazon.png";
 import bnyLogo from "./../../assets/bny.png";
 import microsoftLogo from "./../../assets/microsoft.png";
 import communityImage from "./../../assets/community-members.jpeg";
-
+import linkedinLogo from "./../../assets/linkedinLogo.svg";
 const LandingPage = () => {
   return (
     <>
@@ -24,6 +24,9 @@ const LandingPage = () => {
           <div className="social-links">
             <a href="https://www.instagram.com/thegogirlcommunity/" target="_blank" rel="noopener noreferrer">
               <img src={instagramLogo} alt="Instagram" className="instagram-icon" />
+            </a>
+            <a href="https://www.linkedin.com/showcase/gogirlcommunity/" target="_blank" rel="noopener noreferrer">
+              <img src={linkedinLogo} alt="Linkedin" className="linkedin-icon" />
             </a>
           </div>
         </header>
