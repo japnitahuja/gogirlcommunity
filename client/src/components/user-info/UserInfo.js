@@ -38,7 +38,7 @@ const UserInfo = () => {
     if (validateForm()) {
       try {
         const sheetsResponse = await axios.post(
-          "https://gogirlcommunity.onrender.com/add-infoo",
+          "https://gogirlcommunity.onrender.com/add-info",
           formData, 
           { headers: { "Content-Type": "application/json" } }
         );
