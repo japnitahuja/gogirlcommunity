@@ -4,6 +4,8 @@ import logo from "../../assets/logo.svg";
 import axios from "axios";
 import { handleSubscription } from "../../services/paymentServices";
 
+
+
 const UserInfo = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -36,7 +38,7 @@ const UserInfo = () => {
     if (validateForm()) {
       try {
         const sheetsResponse = await axios.post(
-          "http://localhost:8080/add-info",
+          "https://gogirlcommunity.onrender.com/add-infoo",
           formData, 
           { headers: { "Content-Type": "application/json" } }
         );
