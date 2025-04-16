@@ -3,11 +3,13 @@ const cors = require("cors");
 const app = express();
 const port = process.env.PORT || 8080;
 
-app.use(cors({
-    origin: 'https://gogirlcommunity.netlify.app',
-    methods: ['GET', 'POST'],
-    credentials: true
-  }));
+const corsOptions = {
+  origin: ['https://gogirlcommunity.netlify.app', 'http://localhost:3000'],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 app.use(express.json({ extended: false }));
 app.use("/payment", require("./routes/payment"));
 app.use(require("./routes/addMembersInfo"));
