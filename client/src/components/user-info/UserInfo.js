@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./UserInfo.css";
-import logo from "../../assets/logo.svg";
 import axios from "axios";
 import { handleSubscription } from "../../services/paymentServices";
 
@@ -20,7 +19,6 @@ const UserInfo = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-  // plan_PVy9D4lCuE3rHA
   const validateForm = () => {
     let newErrors = {};
     if (!formData.name.trim()) newErrors.name = "Please enter Name";
@@ -38,25 +36,34 @@ const UserInfo = () => {
     if (validateForm()) {
       try {
         const sheetsResponse = await axios.post(
-          "https://gogirlcommunity.onrender.com/add-info",
-          formData, 
-          { headers: { "Content-Type": "application/json" } }
-        );
-  
+  "https://gogirlcommunity.onrender.com/add-info",
+  formData,
+  {
+    headers: { "Content-Type": "application/json" }
+  }
+);
+        // this log is needed because it shows what data is entered through the form
         console.log("Google Sheets API Response:", sheetsResponse.data);
-        await handleSubscription(formData);
-        console.log('hi happening');
+        const paymentResult = await handleSubscription(formData);
+
+        if (paymentResult.msg === "✅ Success") {
+          setFormData({
+            name: "",
+            email: "",
+            whatsapp: "",
+            organization: "",
+          });
+          setErrors({});
+        }
       } catch (error) {
         console.error("Error submitting data", error);
         alert("Submission failed. Please try again.");
       }
     }
   };
-  
 
   return (
     <div className="container">
-      
       <h2>User Information</h2>
       <form onSubmit={handleSubmit}>
         <div className="flex-container">
