@@ -3,6 +3,8 @@ import "./UserInfo.css";
 import axios from "axios";
 import { handleSubscription } from "../../services/paymentServices";
 
+
+
 const UserInfo = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -34,10 +36,12 @@ const UserInfo = () => {
     if (validateForm()) {
       try {
         const sheetsResponse = await axios.post(
-          "http://localhost:8080/add-info",
-          formData,
-          { headers: { "Content-Type": "application/json" } }
-        );
+  "https://gogirlcommunity.onrender.com/add-info",
+  formData,
+  {
+    headers: { "Content-Type": "application/json" }
+  }
+);
         // this log is needed because it shows what data is entered through the form
         console.log("Google Sheets API Response:", sheetsResponse.data);
         const paymentResult = await handleSubscription(formData);
