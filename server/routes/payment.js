@@ -72,8 +72,12 @@ router.post("/subscriptions", async (req, res) => {
 
     const subscription = await instance.subscriptions.create(options);
 
+    const credentials = JSON.parse(
+      Buffer.from(process.env.GOOGLE_SHEET_CREDENTIALS_BASE64, "base64").toString("utf-8")
+    );
+    
     const auth = new google.auth.GoogleAuth({
-      keyFile: path.resolve(__dirname, "../config/sheet.json"),
+      credentials,
       scopes: "https://www.googleapis.com/auth/spreadsheets",
     });
 
@@ -115,8 +119,10 @@ router.post("/subscriptions", async (req, res) => {
       subscription_id: subscription.id,
     });
   } catch (error) {
+    console.error("🔥 Error in /subscriptions:", error);
     res.status(500).send("Error creating subscription");
   }
+  
 });
 
 
