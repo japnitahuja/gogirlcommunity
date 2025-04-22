@@ -15,6 +15,12 @@ app.post("/add-info", async (req, res) => {
     if (!name || !email || !whatsapp || !organization) {
       return res.status(400).json({ error: "All fields are required" });
     }
+    if (!process.env.GOOGLE_SHEET_CREDENTIALS_BASE64) {
+      console.error("❌ GOOGLE_SHEET_CREDENTIALS_BASE64 is missing!");
+    } else {
+      console.log("✅ GOOGLE_SHEET_CREDENTIALS_BASE64 is set");
+    }
+    
     const credentials = JSON.parse(
       Buffer.from(process.env.GOOGLE_SHEET_CREDENTIALS_BASE64, "base64").toString("utf-8")
     );
