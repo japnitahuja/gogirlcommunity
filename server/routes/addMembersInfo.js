@@ -7,6 +7,7 @@ const path = require("path");
 app.use(express.json()); // Ensure the server can parse JSON requests
 
 app.post("/add-info", async (req, res) => {
+  console.log("Received data:", req.body);  
   try {
 
     const { name, email, whatsapp, organization } = req.body;
