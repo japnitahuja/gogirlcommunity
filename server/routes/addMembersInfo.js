@@ -15,9 +15,12 @@ app.post("/add-info", async (req, res) => {
     if (!name || !email || !whatsapp || !organization) {
       return res.status(400).json({ error: "All fields are required" });
     }
+    const credentials = JSON.parse(
+      Buffer.from(process.env.GOOGLE_SHEET_CREDENTIALS_BASE64, "base64").toString("utf-8")
+    );
 
     const auth = new google.auth.GoogleAuth({
-      keyFile: path.resolve(__dirname, "../config/sheet.json"),
+      credentials,
       scopes: "https://www.googleapis.com/auth/spreadsheets",
     });
 
