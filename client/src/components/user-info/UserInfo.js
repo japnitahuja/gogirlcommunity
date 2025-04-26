@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./UserInfo.css";
-import axios from "axios";
 import { handleSubscription } from "../../services/paymentServices";
 import api from '../../api'
 

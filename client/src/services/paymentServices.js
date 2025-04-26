@@ -1,4 +1,3 @@
-import axios from "axios";
 import api from "../api"; 
 
 console.log("Using API:", process.env.REACT_APP_API_URL);
