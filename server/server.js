@@ -6,7 +6,7 @@ const app = express();
 const port = process.env.PORT || 8080;
 
 const corsOptions = {
-  origin: ['https://gogirlcommunity.netlify.app', 'http://localhost:3000'],
+  origin: ['https://thegogirlcommunity.netlify.app', 'http://localhost:3000'],
   credentials: true,
   optionsSuccessStatus: 200
 };
