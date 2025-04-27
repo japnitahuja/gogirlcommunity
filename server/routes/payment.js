@@ -55,7 +55,7 @@ router.post("/subscriptions", async (req, res) => {
       key_id: razorpay_key,
       key_secret: razorpay_secret,
     });
-
+console.log('envssss server', process.env.ENV);
     const plan_id =
       process.env.ENV === "live"
         ? process.env.PLAN_ID

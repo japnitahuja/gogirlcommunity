@@ -25,6 +25,7 @@ export async function handleSubscription(formData) {
     alert("Server error. Try again later.");
     return { msg: "failed" };
   }
+  console.log('envssss client', process.env.ENV);
 
   const razorpay_key_id =
     process.env.ENV === "live"
