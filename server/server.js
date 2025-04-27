@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/payment", require("./routes/payment"));
-app.use(require("./routes/addMembersInfo"));
+app.use("/add-info", require("./routes/addMembersInfo"));
 
 // Optional: serve frontend if applicable
 app.use(express.static(path.join(__dirname, "build")));

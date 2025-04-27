@@ -1,12 +1,12 @@
 require("dotenv").config();
 const { google } = require("googleapis");
 const express = require("express");
-const app = express();
+const router = express.Router();
 const path = require("path");
 
-app.use(express.json()); // Ensure the server can parse JSON requests
+router.use(express.json()); // Ensure the server can parse JSON requests
 
-app.post("/add-info", async (req, res) => {
+router.post("/", async (req, res) => {
   console.log("Received data:", req.body);  
   try {
 
@@ -63,4 +63,4 @@ app.post("/add-info", async (req, res) => {
   }
 });
 
-module.exports = app;
+module.exports = router;
