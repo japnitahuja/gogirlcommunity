@@ -130,10 +130,16 @@ router.post("/subscriptions", async (req, res) => {
 router.post("/success", async (req, res) => {
   console.log(" /success called with body:", req.body);
 
-  const { razorpay_payment_id, razorpay_signature, email } = req.body;
+  const {
+    subscription_id: razorpay_subscription_id,
+    razorpay_payment_id,
+    razorpay_signature,
+    email,
+  } = req.body;
 
   if (!razorpay_payment_id || !razorpay_signature || !email) {
     console.error(" /success missing fields:", {
+      razorpay_subscription_id,
       razorpay_payment_id,
       razorpay_signature,
       email,
@@ -184,10 +190,17 @@ router.post("/success", async (req, res) => {
         .json({ msg: " Subscription ID not found in sheet!" });
     }
     const storedSubscriptionId = userRow[subscriptionIdColIndex];
-    console.log("✅ Found subscriptionId:", storedSubscriptionId);
+    console.log(
+      "✅ Incoming razorpay_subscription_id:",
+      razorpay_subscription_id
+    );
+    console.log("✅ Stored subscriptionId in sheet:", storedSubscriptionId);
 
-    const secret = process.env.RAZORPAY_SECRET;
-    const payload = `${storedSubscriptionId}|${razorpay_payment_id}`;
+    const secret =
+      process.env.ENV === "live"
+        ? process.env.RAZORPAY_LIVE_SECRET
+        : process.env.RAZORPAY_SECRET;
+    const payload = `${razorpay_subscription_id}|${razorpay_payment_id}`;
     console.log(" Payload for HMAC:", payload);
     const sha = crypto.createHmac("sha256", secret);
     sha.update(payload);
