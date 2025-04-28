@@ -9,7 +9,8 @@ const corsOptions = {
   origin: [
     "https://thegogirlcommunity.netlify.app",
     "http://localhost:3000",
-    "http://community.gogirlorganisation.com",
+    "https://community.gogirlorganisation.com",
+    "http://community.gogirlorganisation.com"
   ],
   credentials: true,
   optionsSuccessStatus: 200,
