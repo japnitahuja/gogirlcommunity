@@ -127,61 +127,69 @@ console.log('envssss server', process.env.ENV);
 
 
 router.post("/success", async (req, res) => {
+  console.log(" /success called with body:", req.body);
+
   const { razorpay_payment_id, razorpay_signature, email } = req.body;
 
   if (!razorpay_payment_id || !razorpay_signature || !email) {
+    console.error(" /success missing fields:", { razorpay_payment_id, razorpay_signature, email });
     return res.status(400).json({ msg: "❌ Missing required fields!" });
   }
 
   try {
+    console.log(" Loading Google Sheets client…");
     const auth = new google.auth.GoogleAuth({
       keyFile: path.resolve(__dirname, "../config/sheet.json"),
       scopes: "https://www.googleapis.com/auth/spreadsheets",
     });
-
     const client = await auth.getClient();
     const googleSheets = google.sheets({ version: "v4", auth: client });
     const spreadsheetId = "1Vb9L79fRSQG_WuxtUEe4XjN4Kp_ly3mA6gN66UjzquU";
 
+    console.log("📄 Fetching rows from sheet Paid Members!A:Z");
     const getRows = await googleSheets.spreadsheets.values.get({
       spreadsheetId,
       range: "Paid Members!A:Z",
     });
-
     const rows = getRows.data.values;
+    console.log(` Got ${rows.length - 1} data rows (plus header)`);
     const headerRow = rows[0];
     const emailColIndex = headerRow.indexOf("Email");
     const subscriptionIdColIndex = headerRow.indexOf("Subscription ID");
+    console.log(" Columns – Email:", emailColIndex, "Subscription ID:", subscriptionIdColIndex);
 
     const userRow = rows.find(row => row[emailColIndex] === email);
+    console.log(" Lookup for email", email, "=>", userRow);
 
     if (!userRow || !userRow[subscriptionIdColIndex]) {
+      console.error(" Subscription ID not found for email", email);
       return res.status(400).json({ msg: "❌ Subscription ID not found in sheet!" });
     }
-
     const storedSubscriptionId = userRow[subscriptionIdColIndex];
+    console.log("✅ Found subscriptionId:", storedSubscriptionId);
 
     const secret = process.env.RAZORPAY_SECRET;
-    const payload = `${razorpay_payment_id}|${storedSubscriptionId}`;
+    const payload = `${storedSubscriptionId}|${razorpay_payment_id}`;
+    console.log(" Payload for HMAC:", payload);
     const sha = crypto.createHmac("sha256", secret);
     sha.update(payload);
     const generated_signature = sha.digest("hex");
+    console.log(" Generated signature:", generated_signature);
+    console.log(" Received signature :", razorpay_signature);
 
     if (generated_signature !== razorpay_signature) {
-      return res
-        .status(400)
-        .json({ msg: "❌ Signature Mismatch! Verification failed." });
+      console.error(" Signature mismatch");
+      return res.status(400).json({ msg: "❌ Signature Mismatch! Verification failed." });
     }
 
+    console.log(" Signature match — success!");
     res.json({
       msg: "✅ Success",
       subscriptionId: storedSubscriptionId,
       paymentId: razorpay_payment_id,
     });
-    return
-
   } catch (error) {
-    console.error("🔥 Error in /success:", error);
+    console.error("🔥 Error in /success handler:", error);
     res.status(500).json({ msg: "❌ Internal Server Error" });
   }
 });
