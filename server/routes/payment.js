@@ -200,7 +200,7 @@ router.post("/success", async (req, res) => {
       process.env.ENV === "live"
         ? process.env.RAZORPAY_LIVE_SECRET
         : process.env.RAZORPAY_SECRET;
-    const payload = `${razorpay_subscription_id}|${razorpay_payment_id}`;
+    const payload = `${razorpay_payment_id}|${razorpay_subscription_id}`;
     console.log(" Payload for HMAC:", payload);
     const sha = crypto.createHmac("sha256", secret);
     sha.update(payload);
