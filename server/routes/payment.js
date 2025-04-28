@@ -10,7 +10,6 @@ let subscriptions = {};
 
 router.post("/orders", async (req, res) => {
   try {
-
     const razorpay_key =
       process.env.ENV == "live"
         ? process.env.RAZORPAY_LIVE_KEY_ID
@@ -55,7 +54,7 @@ router.post("/subscriptions", async (req, res) => {
       key_id: razorpay_key,
       key_secret: razorpay_secret,
     });
-console.log('envssss server', process.env.ENV);
+    console.log("envssss server", process.env.ENV);
     const plan_id =
       process.env.ENV === "live"
         ? process.env.PLAN_ID
@@ -73,9 +72,12 @@ console.log('envssss server', process.env.ENV);
     const subscription = await instance.subscriptions.create(options);
 
     const credentials = JSON.parse(
-      Buffer.from(process.env.GOOGLE_SHEET_CREDENTIALS_BASE64, "base64").toString("utf-8")
+      Buffer.from(
+        process.env.GOOGLE_SHEET_CREDENTIALS_BASE64,
+        "base64"
+      ).toString("utf-8")
     );
-    
+
     const auth = new google.auth.GoogleAuth({
       credentials,
       scopes: "https://www.googleapis.com/auth/spreadsheets",
@@ -103,7 +105,9 @@ console.log('envssss server', process.env.ENV);
       return res.status(404).json({ msg: "❌ Email not found in sheet" });
     }
 
-    const cellToUpdate = `${String.fromCharCode(65 + subscriptionIdColIndex)}${userRowIndex + 1}`;
+    const cellToUpdate = `${String.fromCharCode(65 + subscriptionIdColIndex)}${
+      userRowIndex + 1
+    }`;
     await googleSheets.spreadsheets.values.update({
       spreadsheetId,
       range: `Paid Members!${cellToUpdate}`,
@@ -113,7 +117,6 @@ console.log('envssss server', process.env.ENV);
       },
     });
 
-
     res.json({
       message: "Subscription created and written to sheet",
       subscription_id: subscription.id,
@@ -122,9 +125,7 @@ console.log('envssss server', process.env.ENV);
     console.error("🔥 Error in /subscriptions:", error);
     res.status(500).send("Error creating subscription");
   }
-  
 });
-
 
 router.post("/success", async (req, res) => {
   console.log(" /success called with body:", req.body);
@@ -132,14 +133,24 @@ router.post("/success", async (req, res) => {
   const { razorpay_payment_id, razorpay_signature, email } = req.body;
 
   if (!razorpay_payment_id || !razorpay_signature || !email) {
-    console.error(" /success missing fields:", { razorpay_payment_id, razorpay_signature, email });
+    console.error(" /success missing fields:", {
+      razorpay_payment_id,
+      razorpay_signature,
+      email,
+    });
     return res.status(400).json({ msg: "❌ Missing required fields!" });
   }
 
   try {
     console.log(" Loading Google Sheets client…");
+    const credentials = JSON.parse(
+      Buffer.from(
+        process.env.GOOGLE_SHEET_CREDENTIALS_BASE64,
+        "base64"
+      ).toString("utf-8")
+    );
     const auth = new google.auth.GoogleAuth({
-      keyFile: path.resolve(__dirname, "../config/sheet.json"),
+      credentials,
       scopes: "https://www.googleapis.com/auth/spreadsheets",
     });
     const client = await auth.getClient();
@@ -156,14 +167,21 @@ router.post("/success", async (req, res) => {
     const headerRow = rows[0];
     const emailColIndex = headerRow.indexOf("Email");
     const subscriptionIdColIndex = headerRow.indexOf("Subscription ID");
-    console.log(" Columns – Email:", emailColIndex, "Subscription ID:", subscriptionIdColIndex);
+    console.log(
+      " Columns – Email:",
+      emailColIndex,
+      "Subscription ID:",
+      subscriptionIdColIndex
+    );
 
-    const userRow = rows.find(row => row[emailColIndex] === email);
+    const userRow = rows.find((row) => row[emailColIndex] === email);
     console.log(" Lookup for email", email, "=>", userRow);
 
     if (!userRow || !userRow[subscriptionIdColIndex]) {
       console.error(" Subscription ID not found for email", email);
-      return res.status(400).json({ msg: "❌ Subscription ID not found in sheet!" });
+      return res
+        .status(400)
+        .json({ msg: " Subscription ID not found in sheet!" });
     }
     const storedSubscriptionId = userRow[subscriptionIdColIndex];
     console.log("✅ Found subscriptionId:", storedSubscriptionId);
@@ -179,7 +197,9 @@ router.post("/success", async (req, res) => {
 
     if (generated_signature !== razorpay_signature) {
       console.error(" Signature mismatch");
-      return res.status(400).json({ msg: "❌ Signature Mismatch! Verification failed." });
+      return res
+        .status(400)
+        .json({ msg: " Signature Mismatch! Verification failed." });
     }
 
     console.log(" Signature match — success!");
@@ -193,6 +213,5 @@ router.post("/success", async (req, res) => {
     res.status(500).json({ msg: "❌ Internal Server Error" });
   }
 });
-
 
 module.exports = router;
