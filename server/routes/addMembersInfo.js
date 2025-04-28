@@ -1,12 +1,13 @@
 require("dotenv").config();
 const { google } = require("googleapis");
 const express = require("express");
-const app = express();
+const router = express.Router();
 const path = require("path");
 
-app.use(express.json()); // Ensure the server can parse JSON requests
+router.use(express.json()); // Ensure the server can parse JSON requests
 
-app.post("/add-info", async (req, res) => {
+router.post("/", async (req, res) => {
+  console.log("Received data:", req.body);  
   try {
 
     const { name, email, whatsapp, organization } = req.body;
@@ -14,9 +15,18 @@ app.post("/add-info", async (req, res) => {
     if (!name || !email || !whatsapp || !organization) {
       return res.status(400).json({ error: "All fields are required" });
     }
+    if (!process.env.GOOGLE_SHEET_CREDENTIALS_BASE64) {
+      console.error("❌ GOOGLE_SHEET_CREDENTIALS_BASE64 is missing!");
+    } else {
+      console.log("✅ GOOGLE_SHEET_CREDENTIALS_BASE64 is set");
+    }
+    
+    const credentials = JSON.parse(
+      Buffer.from(process.env.GOOGLE_SHEET_CREDENTIALS_BASE64, "base64").toString("utf-8")
+    );
 
     const auth = new google.auth.GoogleAuth({
-      keyFile: path.resolve(__dirname, "../config/sheet.json"),
+      credentials,
       scopes: "https://www.googleapis.com/auth/spreadsheets",
     });
 
@@ -53,4 +63,4 @@ app.post("/add-info", async (req, res) => {
   }
 });
 
-module.exports = app;
+module.exports = router;

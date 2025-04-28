@@ -1,4 +1,6 @@
-import axios from "axios";
+import api from "../api"; 
+
+console.log("Using API:", process.env.REACT_APP_API_URL);
 
 function loadScript(src) {
   return new Promise((resolve) => {
@@ -17,15 +19,16 @@ export async function handleSubscription(formData) {
     return { msg: "failed" };
   }
 
-  const result = await axios.post("/payment/subscriptions", { user: formData });
+  const result = await api.post("/payment/subscriptions", { user: formData });
 
   if (!result) {
     alert("Server error. Try again later.");
     return { msg: "failed" };
   }
+  console.log('envssss client', process.env.REACT_APP_ENV);
 
   const razorpay_key_id =
-    process.env.ENV === "live"
+    process.env.REACT_APP_ENV === "live"
       ? process.env.REACT_APP_RAZORPAY_LIVE_KEY_ID
       : process.env.REACT_APP_RAZORPAY_KEY_ID;
 
@@ -48,7 +51,7 @@ export async function handleSubscription(formData) {
           razorpay_signature: response.razorpay_signature,
           email: formData.email,
         };
-        const res = await axios.post("/payment/success", data);
+        const res = await api.post("/payment/success", data);
         alert("Subscription successful!");
         resolve(res.data);
       },

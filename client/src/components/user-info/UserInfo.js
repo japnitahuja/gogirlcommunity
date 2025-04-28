@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import "./UserInfo.css";
-import axios from "axios";
 import { handleSubscription } from "../../services/paymentServices";
-
+import api from '../../api'
 
 
 const UserInfo = () => {
@@ -35,8 +34,8 @@ const UserInfo = () => {
     e.preventDefault();
     if (validateForm()) {
       try {
-        const sheetsResponse = await axios.post(
-  "https://gogirlcommunity.onrender.com/add-info",
+        const sheetsResponse = await api.post(
+  "/add-info",
   formData,
   {
     headers: { "Content-Type": "application/json" }
