@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import "./UserInfo.css";
 import { handleSubscription } from "../../services/paymentServices";
-import api from '../../api'
-
+import api from "../../api";
 
 const UserInfo = () => {
   const [formData, setFormData] = useState({
@@ -13,11 +12,13 @@ const UserInfo = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+
   const validateForm = () => {
     let newErrors = {};
     if (!formData.name.trim()) newErrors.name = "Please enter Name";
@@ -32,32 +33,26 @@ const UserInfo = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      try {
-        const sheetsResponse = await api.post(
-  "/add-info",
-  formData,
-  {
-    headers: { "Content-Type": "application/json" }
-  }
-);
-        // this log is needed because it shows what data is entered through the form
-        console.log("Google Sheets API Response:", sheetsResponse.data);
-        const paymentResult = await handleSubscription(formData);
+    if (!validateForm()) return;
 
-        if (paymentResult.msg === "✅ Success") {
-          setFormData({
-            name: "",
-            email: "",
-            whatsapp: "",
-            organization: "",
-          });
-          setErrors({});
-        }
-      } catch (error) {
-        console.error("Error submitting data", error);
-        alert("Submission failed. Please try again.");
+    setLoading(true);
+    try {
+      const sheetsResponse = await api.post("/add-info", formData, {
+        headers: { "Content-Type": "application/json" },
+      });
+      console.log("Google Sheets API Response:", sheetsResponse.data);
+
+      const paymentResult = await handleSubscription(formData);
+
+      if (paymentResult.msg === "✅ Success") {
+        setFormData({ name: "", email: "", whatsapp: "", organization: "" });
+        setErrors({});
       }
+    } catch (error) {
+      console.error("Error submitting data", error);
+      alert("Submission failed. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -76,6 +71,7 @@ const UserInfo = () => {
           />
           {errors.name && <p className="text-red-500">{errors.name}</p>}
         </div>
+
         <div className="flex-container">
           <label>Email:</label>
           <input
@@ -87,6 +83,7 @@ const UserInfo = () => {
           />
           {errors.email && <p className="text-red-500">{errors.email}</p>}
         </div>
+
         <div className="flex-container">
           <label>WhatsApp Number:</label>
           <input
@@ -98,6 +95,7 @@ const UserInfo = () => {
           />
           {errors.whatsapp && <p className="text-red-500">{errors.whatsapp}</p>}
         </div>
+
         <div className="flex-container">
           <label>College/Company:</label>
           <input
@@ -111,7 +109,10 @@ const UserInfo = () => {
             <p className="text-red-500">{errors.organization}</p>
           )}
         </div>
-        <button type="submit">Subscribe to community</button>
+
+        <button type="submit" disabled={loading} className="submit-button">
+          {loading ? <div className="css-spinner" /> : "Subscribe to community"}
+        </button>
       </form>
     </div>
   );

@@ -4,6 +4,7 @@ const express = require("express");
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
 const path = require("path");
+const { start } = require("repl");
 
 const router = express.Router();
 let subscriptions = {};
@@ -37,7 +38,10 @@ router.post("/orders", async (req, res) => {
   }
 });
 
+
 router.post("/subscriptions", async (req, res) => {
+  const trialDays = 30;
+  const startAt = Math.floor(Date.now() / 1000) + trialDays * 24 * 60 * 60;
   try {
     const { email } = req.body.user;
 
@@ -65,6 +69,7 @@ router.post("/subscriptions", async (req, res) => {
       customer_notify: 1,
       quantity: 1,
       total_count: 12,
+      start_at: startAt,
       addons: [],
       notes: {},
     };
