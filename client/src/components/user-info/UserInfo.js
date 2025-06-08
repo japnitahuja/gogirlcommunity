@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./UserInfo.css";
 import { handleSubscription } from "../../services/paymentServices";
 import api from "../../api";
+import PaymentSuccessModal from "../payment-success-modal/PaymentSuccessModal";
 
 const UserInfo = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,8 @@ const UserInfo = () => {
 
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [paymentInfo, setPaymentInfo] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,16 +40,23 @@ const UserInfo = () => {
 
     setLoading(true);
     try {
-      const sheetsResponse = await api.post("/add-info", formData, {
+      // 1) Add member info
+      await api.post("/add-info", formData, {
         headers: { "Content-Type": "application/json" },
       });
-      console.log("Google Sheets API Response:", sheetsResponse.data);
 
+      // 2) Launch Razorpay & wait for payment success
       const paymentResult = await handleSubscription(formData);
 
+      // 3) On successful transaction, capture details and show modal
       if (paymentResult.msg === "✅ Success") {
+        setPaymentInfo({
+          subscriptionId: paymentResult.subscriptionId,
+          paymentId: paymentResult.paymentId,
+        });
         setFormData({ name: "", email: "", whatsapp: "", organization: "" });
         setErrors({});
+        setShowModal(true);
       }
     } catch (error) {
       console.error("Error submitting data", error);
@@ -114,6 +124,13 @@ const UserInfo = () => {
           {loading ? <div className="css-spinner" /> : "Subscribe to community"}
         </button>
       </form>
+
+      <PaymentSuccessModal
+        show={showModal}
+        subscriptionId={paymentInfo?.subscriptionId}
+        paymentId={paymentInfo?.paymentId}
+        onClose={() => setShowModal(false)}
+      />
     </div>
   );
 };
