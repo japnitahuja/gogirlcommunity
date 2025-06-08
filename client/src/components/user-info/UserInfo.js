@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./UserInfo.css";
 import { handleSubscription } from "../../services/paymentServices";
-import api from '../../api';
+import api from "../../api";
+import PaymentSuccessModal from "../payment-success-modal/PaymentSuccessModal";
 
 const UserInfo = () => {
   const [formData, setFormData] = useState({
@@ -40,11 +41,9 @@ const UserInfo = () => {
     setLoading(true);
     try {
       // 1) Add member info
-      await api.post(
-        "/add-info",
-        formData,
-        { headers: { "Content-Type": "application/json" } }
-      );
+      await api.post("/add-info", formData, {
+        headers: { "Content-Type": "application/json" },
+      });
 
       // 2) Launch Razorpay & wait for payment success
       const paymentResult = await handleSubscription(formData);
@@ -126,17 +125,12 @@ const UserInfo = () => {
         </button>
       </form>
 
-      {showModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h3>Payment & Subscription Successful!</h3>
-            <p>Your subscription ID: <strong>{paymentInfo?.subscriptionId}</strong></p>
-            <p>Your payment ID: <strong>{paymentInfo?.paymentId}</strong></p>
-            <p>Thank you for joining the Go Girl Community.</p>
-            <button onClick={() => setShowModal(false)}>Close</button>
-          </div>
-        </div>
-      )}
+      <PaymentSuccessModal
+        show={showModal}
+        subscriptionId={paymentInfo?.subscriptionId}
+        paymentId={paymentInfo?.paymentId}
+        onClose={() => setShowModal(false)}
+      />
     </div>
   );
 };
