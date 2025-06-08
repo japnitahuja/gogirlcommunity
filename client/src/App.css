@@ -100,20 +100,27 @@ main {
   line-height: 45px;
 }
 
-.community-image-container {
+/* mobile and up: fill its container */
+.community-image {
+  display: block;
   width: 100%;
-  margin-top: -63px;
-  margin-left: -120px;
+  height: auto;
+  object-fit: cover;
 }
 
-.community-image {
-  width: auto;
-  height: 653px;
-  width: 730px;
-  height: 400px;
-  object-fit: cover;
-  mix-blend-mode: multiply;
+@media (min-width: 1024px) {
+  .community-image-container {
+    /* overflow: hidden;    */
+  }
+
+  .community-image {
+    width: 130%;        
+    max-width: none;    
+    /* margin-left: 10%;   */
+  }
 }
+
+
 
 /* Sign up form styles */
 .signup-form-wrapper {
