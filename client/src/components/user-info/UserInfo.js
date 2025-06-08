@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./UserInfo.css";
 import { handleSubscription } from "../../services/paymentServices";
-import api from "../../api";
+import api from '../../api';
 
 const UserInfo = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +13,8 @@ const UserInfo = () => {
 
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [paymentInfo, setPaymentInfo] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,16 +39,25 @@ const UserInfo = () => {
 
     setLoading(true);
     try {
-      const sheetsResponse = await api.post("/add-info", formData, {
-        headers: { "Content-Type": "application/json" },
-      });
-      console.log("Google Sheets API Response:", sheetsResponse.data);
+      // 1) Add member info
+      await api.post(
+        "/add-info",
+        formData,
+        { headers: { "Content-Type": "application/json" } }
+      );
 
+      // 2) Launch Razorpay & wait for payment success
       const paymentResult = await handleSubscription(formData);
 
+      // 3) On successful transaction, capture details and show modal
       if (paymentResult.msg === "✅ Success") {
+        setPaymentInfo({
+          subscriptionId: paymentResult.subscriptionId,
+          paymentId: paymentResult.paymentId,
+        });
         setFormData({ name: "", email: "", whatsapp: "", organization: "" });
         setErrors({});
+        setShowModal(true);
       }
     } catch (error) {
       console.error("Error submitting data", error);
@@ -114,6 +125,18 @@ const UserInfo = () => {
           {loading ? <div className="css-spinner" /> : "Subscribe to community"}
         </button>
       </form>
+
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Payment & Subscription Successful!</h3>
+            <p>Your subscription ID: <strong>{paymentInfo?.subscriptionId}</strong></p>
+            <p>Your payment ID: <strong>{paymentInfo?.paymentId}</strong></p>
+            <p>Thank you for joining the Go Girl Community.</p>
+            <button onClick={() => setShowModal(false)}>Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
