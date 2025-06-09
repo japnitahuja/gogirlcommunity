@@ -12,6 +12,10 @@
   flex-direction: column;
   width: 100%;
 }
+.submit-button{
+  display: flex;
+  justify-content: center;
+}
 .css-spinner {
   width: 18px;
   height: 18px;
@@ -19,6 +23,11 @@
   border-top-color: rgba(0,0,0,0.6);
   border-radius: 50%;
   animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from   { transform: rotate(0deg); }
+  to     { transform: rotate(360deg); }
 }
 
 .flex-container {

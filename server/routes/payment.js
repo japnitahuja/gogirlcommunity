@@ -74,8 +74,9 @@ router.post("/subscriptions", async (req, res) => {
       notes: {},
     };
 
+    console.log("👉 Creating Razorpay subscription with options:", options);
     const subscription = await instance.subscriptions.create(options);
-
+    console.log("✅ Razorpay subscription response:", subscription);
     const credentials = JSON.parse(
       Buffer.from(
         process.env.GOOGLE_SHEET_CREDENTIALS_BASE64,
