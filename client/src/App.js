@@ -3,11 +3,7 @@ import "./App.css";
 import { LandingPage } from "./pages";
 
 function App() {
-  return (
-    <div>
-      <LandingPage />
-    </div>
-  );
+  return <LandingPage />;
 }
 
 export default App;
