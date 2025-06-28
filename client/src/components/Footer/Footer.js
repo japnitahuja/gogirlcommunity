@@ -52,7 +52,7 @@ const Footer = () => {
         </div>
 
         <div className="footer-right">
-          <h3 className="newsletter-heading"></h3>
+          {/* <h3 className="newsletter-heading"></h3> */}
           <form onSubmit={handleSubmit} className="newsletter-form">
             <div className="form-text">
               <span>My name is </span>

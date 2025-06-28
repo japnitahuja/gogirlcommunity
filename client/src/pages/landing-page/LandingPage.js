@@ -1,7 +1,7 @@
-import React, { useRef, useState, useEffect } from "react";
+// import React, { useRef, useState, useEffect } from "react";
 import "./../../App.css";
 
-import { UserInfo, Events, Footer } from "./../../components";
+import { UserInfo } from "./../../components";
 
 import logo from "./../../assets/gg-logo.png";
 import instagramLogo from "./../../assets/instagram-logo.svg";
@@ -15,59 +15,59 @@ import communityImageMobile from "./../../assets/community-members-mobile.jpeg";
 import linkedinLogo from "./../../assets/linkedinLogo.svg";
 
 const LandingPage = () => {
-  const eventsRef = useRef(null);
-  const [showBackToTop, setShowBackToTop] = useState(false);
+  // const eventsRef = useRef(null);
+  // const [showBackToTop, setShowBackToTop] = useState(false);
 
-  const scrollToEvents = () => {
-    eventsRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
+  // const scrollToEvents = () => {
+  //   eventsRef.current?.scrollIntoView({ behavior: 'smooth' });
+  // };
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  // const scrollToTop = () => {
+  //   window.scrollTo({ top: 0, behavior: 'smooth' });
+  // };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      // Show button when page is scrolled more than 400px
-      setShowBackToTop(window.scrollY > 400);
-    };
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     // Show button when page is scrolled more than 400px
+  //     setShowBackToTop(window.scrollY > 400);
+  //   };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  //   window.addEventListener('scroll', handleScroll);
+  //   return () => window.removeEventListener('scroll', handleScroll);
+  // }, []);
 
-  const pastEvents = [
-    {
-      id: 1,
-      title: "International Women's Day Celebration",
-      date: "March 8, 2024",
-      time: "5:00 PM PST",
-      location: "San Francisco",
-      description: "We celebrated International Women's Day with inspiring talks from women leaders in tech and a networking session.",
-      category: "Special Event",
-      image: "https://placehold.co/600x400/E6D4FE/ffffff/png"
-    },
-    {
-      id: 2,
-      title: "Career Development Workshop",
-      date: "March 1, 2024",
-      time: "2:00 PM PST",
-      location: "Virtual Event",
-      description: "An interactive session on career growth, personal branding, and leadership development in the tech industry.",
-      category: "Workshop",
-      image: "https://placehold.co/600x400/FEF6B7/ffffff/png"
-    },
-    {
-      id: 3,
-      title: "Tech Mentorship Kickoff",
-      date: "February 15, 2024",
-      time: "4:00 PM PST",
-      location: "Seattle",
-      description: "Launched our mentorship program connecting experienced tech professionals with aspiring women in tech.",
-      category: "Mentorship",
-      image: "https://placehold.co/600x400/E6D4FE/ffffff/png"
-    }
-  ];
+  // const pastEvents = [
+  //   {
+  //     id: 1,
+  //     title: "International Women's Day Celebration",
+  //     date: "March 8, 2024",
+  //     time: "5:00 PM PST",
+  //     location: "San Francisco",
+  //     description: "We celebrated International Women's Day with inspiring talks from women leaders in tech and a networking session.",
+  //     category: "Special Event",
+  //     image: "https://placehold.co/600x400/E6D4FE/ffffff/png"
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Career Development Workshop",
+  //     date: "March 1, 2024",
+  //     time: "2:00 PM PST",
+  //     location: "Virtual Event",
+  //     description: "An interactive session on career growth, personal branding, and leadership development in the tech industry.",
+  //     category: "Workshop",
+  //     image: "https://placehold.co/600x400/FEF6B7/ffffff/png"
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Tech Mentorship Kickoff",
+  //     date: "February 15, 2024",
+  //     time: "4:00 PM PST",
+  //     location: "Seattle",
+  //     description: "Launched our mentorship program connecting experienced tech professionals with aspiring women in tech.",
+  //     category: "Mentorship",
+  //     image: "https://placehold.co/600x400/E6D4FE/ffffff/png"
+  //   }
+  // ];
 
   return (
     <>
@@ -78,7 +78,7 @@ const LandingPage = () => {
               <img src={logo} alt="Go Girl Community" className="gg-logo" />
             </div>
             <div className="social-links">
-              <button onClick={scrollToEvents} className="events-button">Events</button>
+              {/* <button onClick={scrollToEvents} className="events-button">Events</button> */}
               <a
                 href="https://www.instagram.com/thegogirlcommunity/"
                 target="_blank"
@@ -156,7 +156,7 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <div ref={eventsRef} className="events-container-wrapper">
+      {/* <div ref={eventsRef} className="events-container-wrapper">
         <div className="upcoming-events-section">
           <h2 className="events-heading">Upcoming Events</h2>
           <p className="events-subheading">Join our community events and connect with amazing women in tech!</p>
@@ -192,17 +192,17 @@ const LandingPage = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
-      <button 
-        className={`back-to-top-button ${showBackToTop ? 'visible' : ''}`}
-        onClick={scrollToTop}
-        aria-label="Back to top"
-      >
-        ↑
-      </button>
+      {/* <button 
+            className={`back-to-top-button ${showBackToTop ? 'visible' : ''}`}
+            onClick={scrollToTop}
+            aria-label="Back to top"
+          >
+            ↑
+          </button> */}
 
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };
