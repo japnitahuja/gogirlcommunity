@@ -41,16 +41,15 @@ router.post("/", async (req, res) => {
       valueInputOption: "USER_ENTERED",
       resource: {
         values: [[
-          "Onboarded",  // Status
+          "Payment Link Re-sent",  // Status
           name,         // Name from form
           email,        // Email from form
           whatsapp,     // WhatsApp from form
           "waitlist, form", // Default value
           "Active",     // Default status
-          "", "", "Not yet",
+          "", "Not yet","","",
           new Date().toLocaleDateString(),  // Current Date
           "", "", "100",
-          "Aqsa", "", "", "", 
           "Rs. 100/month for the first year, early adopter discount",
         ]],
       },

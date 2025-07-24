@@ -1,12 +1,22 @@
 {
-  "dependencies": {
+  "name": "server",
+  "version": "1.0.0",
+  "engines": {
+    "node": "20.x"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+    "dependencies": {
     "cors": "^2.8.5",
-    "crypto": "^1.0.1",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "googleapi": "^1.0.2",
+    "gcp-metadata": "^5.3.0", 
     "googleapis": "^146.0.0",
     "mongoose": "^8.10.0",
     "razorpay": "^2.9.5"
-  }
+  },
+  "license": "MIT"
 }
+

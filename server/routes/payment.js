@@ -111,15 +111,28 @@ router.post("/subscriptions", async (req, res) => {
       return res.status(404).json({ msg: "❌ Email not found in sheet" });
     }
 
-    const cellToUpdate = `${String.fromCharCode(65 + subscriptionIdColIndex)}${
-      userRowIndex + 1
-    }`;
-    await googleSheets.spreadsheets.values.update({
+    const subscriptionLinkColIndex = headerRow.indexOf("Subscription Link");
+
+    const rowNumber = userRowIndex + 1;
+    const linkColLetter = String.fromCharCode(65 + subscriptionLinkColIndex);
+    const idColLetter = String.fromCharCode(65 + subscriptionIdColIndex);
+
+    const subscriptionLink = `https://dashboard.razorpay.com/app/subscriptions/${subscription.id}`;
+
+    await googleSheets.spreadsheets.values.batchUpdate({
       spreadsheetId,
-      range: `Paid Members!${cellToUpdate}`,
-      valueInputOption: "USER_ENTERED",
       resource: {
-        values: [[subscription.id]],
+        valueInputOption: "USER_ENTERED",
+        data: [
+          {
+            range: `Paid Members!${linkColLetter}${rowNumber}`,
+            values: [[subscriptionLink]],
+          },
+          {
+            range: `Paid Members!${idColLetter}${rowNumber}`,
+            values: [[subscription.id]],
+          },
+        ],
       },
     });
 
