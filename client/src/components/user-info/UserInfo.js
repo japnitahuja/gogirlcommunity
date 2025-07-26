@@ -123,6 +123,12 @@ const UserInfo = () => {
         <button type="submit" disabled={loading} className="submit-button">
           {loading ? <div className="css-spinner" /> : "Subscribe to community"}
         </button>
+        <div className="payment-info-banner">
+          <p>
+            💡 Your ₹5 trial fee will be refunded. Regular subscription of
+            ₹100/month starts from your second month. Cancel anytime. ❤️
+          </p>
+        </div>
       </form>
 
       <PaymentSuccessModal
