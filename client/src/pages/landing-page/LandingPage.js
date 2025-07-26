@@ -79,6 +79,11 @@ const LandingPage = () => {
             </div>
             <div className="social-links">
               {/* <button onClick={scrollToEvents} className="events-button">Events</button> */}
+              <a href="https://gogirlcommunity.beehiiv.com/">
+                <button className="events-button">
+                  Subscribe to newsletter
+                </button>
+              </a>
               <a
                 href="https://www.instagram.com/thegogirlcommunity/"
                 target="_blank"
@@ -103,7 +108,6 @@ const LandingPage = () => {
               </a>
             </div>
           </header>
-
           <main>
             <div className="left-section">
               <h1 className="main-heading">
