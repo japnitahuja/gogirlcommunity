@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+
+.text-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+  padding: 1.2rem 1.6rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 360px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  color: #333;
+  text-align: left;
+  flex: 1 1 280px;
+}
+
+.text-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 250, 240, 0.85);
+}
+
+.text-card-text {
+  font-size: 1rem;
+  line-height: 1.6;
+  display: block;
+}
+
+.text-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  width: 42px;
+  height: 42px;
+  background: linear-gradient(135deg, #ffb6b9, #fcd5ce);
+  border-radius: 50%;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+}
+

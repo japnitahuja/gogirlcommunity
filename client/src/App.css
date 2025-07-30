@@ -11,8 +11,8 @@
 
 /* Main container */
 .landing-page {
-  min-height: 100vh;
-  background: radial-gradient(circle, #FEF6B7, #E6D4FE);
+  min-height: 92vh;
+  background: radial-gradient(circle, #fef6b7, #e6d4fe);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,8 +20,8 @@
 
 .page-content {
   width: 100%;
-  max-width: 1100px; 
-  height: 800px; 
+  max-width: 1100px;
+  height: 800px;
   padding: 20px;
   position: relative;
 }
@@ -79,7 +79,7 @@ main {
 
 /* Headings and text styles */
 .main-heading {
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   font-size: 64px;
   line-height: 1.1;
   color: #000;
@@ -110,8 +110,8 @@ main {
   }
 
   .community-image {
-    width: 130%;        
-    max-width: none;    
+    width: 130%;
+    max-width: none;
     /* margin-left: 10%;   */
   }
 }
@@ -128,7 +128,7 @@ main {
 }
 
 .form-heading {
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   font-size: 36px;
   margin-bottom: 30px;
   font-weight: normal;
@@ -150,17 +150,17 @@ main {
   border: 1px solid #969696;
   border-radius: 5px;
   font-size: 16px;
-  font-family: 'Montserrat', Helvetica;
+  font-family: "Montserrat", Helvetica;
 }
 
 .signup-button {
   padding: 15px;
   border: none;
   border-radius: 5px;
-  background-color: #E6D4FE;
+  background-color: #e6d4fe;
   color: white;
   font-size: 16px;
-  font-family: 'Montserrat', Helvetica;
+  font-family: "Montserrat", Helvetica;
   cursor: pointer;
   transition: background-color 0.3s;
   margin-top: 10px;
@@ -181,8 +181,10 @@ main {
 .companies-text {
   font-size: 18px;
   margin-bottom: 20px;
+  font-weight: 500;
   color: #333;
-  font-family: 'Playfair Display', serif;
+    font-family: "Montserrat", Helvetica;
+
 }
 
 .company-logos {
@@ -219,7 +221,8 @@ main {
   main {
     flex-direction: column;
   }
-  .left-section, .right-section {
+  .left-section,
+  .right-section {
     width: 100%;
     padding-right: 0;
     margin-bottom: 40px;
@@ -237,13 +240,18 @@ main {
   .nav-links {
     gap: 10px;
   }
-  
+
   .events-button {
     padding: 8px 15px;
     font-size: 14px;
   }
-  
-  .instagram-icon, .linkedin-icon {
+  .alt-sub-button {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+
+  .instagram-icon,
+  .linkedin-icon {
     width: 25px;
     height: 25px;
   }
@@ -251,11 +259,11 @@ main {
   .companies-section {
     padding: 30px 20px;
   }
-  
+
   .company-logos {
     gap: 20px;
   }
-  
+
   .company-logo {
     height: 40px;
     margin: 0 10px;
@@ -270,10 +278,10 @@ main {
 
 .events-button {
   padding: 10px 25px;
-  background-color: #FEF6B7;
+  background-color: #fef6b7;
   color: #333;
   border-radius: 25px;
-  font-family: 'Montserrat', Helvetica;
+  font-family: "Montserrat", Helvetica;
   font-size: 16px;
   text-decoration: none;
   transition: all 0.3s ease;
@@ -282,7 +290,26 @@ main {
 }
 
 .events-button:hover {
-  background-color: #E6D4FE;
+  background-color: #e6d4fe;
+  transform: translateY(-2px);
+}
+.alt-sub-button {
+  padding: 10px 25px;
+  background-color: #e6d4fe;
+  font-weight: 700;
+  color: #333;
+  border-radius: 25px;
+  font-family: "Montserrat", Helvetica;
+  font-size: 16px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+
+.alt-sub-button:hover {
+  background-color: #fef6b7;
+
   transform: translateY(-2px);
 }
 
@@ -294,7 +321,7 @@ main {
 
 .events-container-wrapper {
   padding: 60px 20px;
-  background: radial-gradient(circle, #FEF6B7, #E6D4FE);
+  background: radial-gradient(circle, #fef6b7, #e6d4fe);
 }
 
 .upcoming-events-section {
@@ -304,7 +331,7 @@ main {
 }
 
 .events-heading {
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   font-size: 64px;
   line-height: 1.1;
   color: #000;
@@ -314,7 +341,7 @@ main {
 }
 
 .events-subheading {
-  font-family: 'Montserrat', Helvetica;
+  font-family: "Montserrat", Helvetica;
   font-size: 24px;
   color: #000000;
   text-align: center;
@@ -328,7 +355,7 @@ main {
 }
 
 .past-events-heading {
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   font-size: 48px;
   line-height: 1.1;
   color: #000;
@@ -338,7 +365,7 @@ main {
 }
 
 .past-events-subheading {
-  font-family: 'Montserrat', Helvetica;
+  font-family: "Montserrat", Helvetica;
   font-size: 24px;
   color: #000000;
   text-align: center;
@@ -350,10 +377,10 @@ main {
   padding: 15px;
   border: none;
   border-radius: 5px;
-  background-color: #E6D4FE;
+  background-color: #e6d4fe;
   color: #333;
   font-size: 16px;
-  font-family: 'Montserrat', Helvetica;
+  font-family: "Montserrat", Helvetica;
   cursor: pointer;
   transition: background-color 0.3s;
 }
@@ -366,12 +393,12 @@ main {
   .events-heading {
     font-size: 48px;
   }
-  
+
   .events-subheading,
   .past-events-subheading {
     font-size: 20px;
   }
-  
+
   .past-events-heading {
     font-size: 36px;
   }
@@ -381,12 +408,12 @@ main {
   .events-container-wrapper {
     padding: 40px 20px;
   }
-  
+
   .upcoming-events-section,
   .past-events-section {
     padding: 30px 0;
   }
-  
+
   .events-button {
     font-size: 14px;
     padding: 8px 20px;
@@ -400,7 +427,7 @@ main {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: #FEF6B7;
+  background-color: #fef6b7;
   color: #333;
   border: none;
   font-size: 24px;
@@ -421,7 +448,7 @@ main {
 }
 
 .back-to-top-button:hover {
-  background-color: #E6D4FE;
+  background-color: #e6d4fe;
   transform: translateY(-5px);
 }
 
@@ -432,5 +459,120 @@ main {
     width: 40px;
     height: 40px;
     font-size: 20px;
+  }
+}
+.link-newsletter {
+  text-decoration: none;
+}
+.benefits-section {
+  background: #fffaf0; /* soft warm background */
+  padding: 3rem 1.5rem;
+  text-align: center;
+  border-radius: 16px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+}
+
+.benefits-text {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #333;
+  /* font-family: 'Poppins', sans-serif; */
+}
+
+.benefits-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  padding: 0;
+  list-style: none;
+  margin-top: 2rem;
+}
+
+.benefits-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  background-color: #fff;
+  padding: 1rem 1.2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  flex: 1 1 300px;
+  max-width: 360px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.benefits-list li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  background-color: #fff6ee;
+}
+
+.benefits-list .emoji {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.benefits-list .benefit-text {
+  flex: 1;
+}
+/* Default: Show everything */
+.social-links .newsletter-btn,
+.social-links .social-icon {
+  display: inline-block;
+}
+.mobile-only-links {
+  display: none;
+}
+@media (max-width: 768px) {
+  /* In mobile view, show only the alt-sub-button in the header */
+  .social-links .newsletter-btn,
+  .social-links .social-icon {
+    display: none;
+  }
+
+  /* Show moved items inside form instead */
+  .mobile-only-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .mobile-only-links .newsletter-btn {
+    display: block;
+    padding: 10px 25px;
+    background-color: #fef6b7;
+    color: #333;
+    border-radius: 25px;
+    font-family: "Montserrat", Helvetica;
+    font-size: 16px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+  }
+
+  .mobile-only-links .newsletter-btn:hover {
+    background-color: #e6d4fe;
+  }
+
+  .mobile-only-links .social-icon {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+  }
+
+  .mobile-only-links .social-icons-wrapper {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
   }
 }

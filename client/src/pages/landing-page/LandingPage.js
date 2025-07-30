@@ -1,7 +1,7 @@
 // import React, { useRef, useState, useEffect } from "react";
 import "./../../App.css";
 
-import { UserInfo } from "./../../components";
+import { UserInfo, TextCard } from "./../../components";
 
 import logo from "./../../assets/gg-logo.png";
 import instagramLogo from "./../../assets/instagram-logo.svg";
@@ -78,8 +78,22 @@ const LandingPage = () => {
               <img src={logo} alt="Go Girl Community" className="gg-logo" />
             </div>
             <div className="social-links">
-              {/* <button onClick={scrollToEvents} className="events-button">Events</button> */}
-              <a href="https://gogirlcommunity.beehiiv.com/">
+              <a
+                href="https://shop.beacons.ai/japnitahuja/636a657c-de77-42dc-8844-3037dffa6043"
+                className="link-newsletter"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <button className="alt-sub-button">
+                  Not in India? click here
+                </button>
+              </a>
+              <a
+                href="https://gogirlcommunity.beehiiv.com/"
+                className="link-newsletter newsletter-btn"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <button className="events-button">
                   Subscribe to newsletter
                 </button>
@@ -88,6 +102,7 @@ const LandingPage = () => {
                 href="https://www.instagram.com/thegogirlcommunity/"
                 target="_blank"
                 rel="noopener noreferrer"
+                className="social-icon"
               >
                 <img
                   src={instagramLogo}
@@ -99,6 +114,7 @@ const LandingPage = () => {
                 href="https://www.linkedin.com/showcase/gogirlcommunity/"
                 target="_blank"
                 rel="noopener noreferrer"
+                className="social-icon"
               >
                 <img
                   src={linkedinLogo}
@@ -116,9 +132,9 @@ const LandingPage = () => {
                 Community
               </h1>
               <p className="promo-text">
-                Claim your One Month
+                Claim your one month
                 <br />
-                Free Trial now!
+                ✨free trial✨ now!
               </p>
               <div className="community-image-container">
                 <picture>
@@ -145,10 +161,45 @@ const LandingPage = () => {
                 </div>
               </div>
             </div>
+                  <div className="mobile-only-links">
+                    <a
+                      href="https://gogirlcommunity.beehiiv.com/"
+                      className="newsletter-btn"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Subscribe to newsletter
+                    </a>
+                    <div className="social-icons-wrapper">
+                      <a
+                        href="https://www.instagram.com/thegogirlcommunity/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="social-icon"
+                      >
+                        <img
+                          src={instagramLogo}
+                          alt="Instagram"
+                          className="instagram-icon"
+                        />
+                      </a>
+                      <a
+                        href="https://www.linkedin.com/showcase/gogirlcommunity/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="social-icon"
+                      >
+                        <img
+                          src={linkedinLogo}
+                          alt="Linkedin"
+                          className="linkedin-icon"
+                        />
+                      </a>
+                    </div>
+                  </div>
           </main>
         </div>
       </div>
-
       <div className="companies-section">
         <p className="companies-text">join members from companies like</p>
         <div className="company-logos">
@@ -157,6 +208,21 @@ const LandingPage = () => {
           <img src={amazonLogo} alt="Amazon" className="company-logo" />
           <img src={bnyLogo} alt="BNY" className="company-logo" />
           <img src={microsoftLogo} alt="Microsoft" className="company-logo" />
+        </div>
+      </div>
+      <div className="benefits-section">
+        <p className="benefits-text">here's what you get</p>
+        <div className="benefits-list">
+          <TextCard
+            icon="🌐"
+            text="Access to coding sessions & career resources"
+          />
+          <TextCard icon="💬" text="Community support + mentorship" />
+          <TextCard
+            icon="🎉"
+            text="Priority invites to offline events & webinars"
+          />
+          <TextCard icon="💼" text="Resume & portfolio reviews" />
         </div>
       </div>
 
