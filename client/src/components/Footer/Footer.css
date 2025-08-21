@@ -1,7 +1,8 @@
 .footer {
   background-color: #E6D4FE;
-  padding: 40px 0;
+  padding: 0 0;
   width: 100%;
+  height: 400px;
 }
 
 .footer-content {
@@ -10,25 +11,29 @@
   padding: 0 40px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  gap: 40px;
 }
 
 .footer-left {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 30px;
+  gap: 20px;
+  flex-shrink: 0;
 }
 
 .footer-logo {
   width: auto;
   height: 150px;
+  margin-top: 70px;
+  margin-bottom: -40px;
 }
 
 .footer-social {
   display: flex;
   gap: 20px;
-  margin-top: -10px;
+  margin-left: 30px;
 }
 
 .social-link {
@@ -46,114 +51,121 @@
 }
 
 .footer-right {
+  flex: 1;
   max-width: 600px;
   width: 100%;
 }
 
-.newsletter-heading {
-  color: #FEF6B7;
-  font-family: 'Playfair Display', serif;
-  font-size: 24px;
-  margin-bottom: 30px;
-}
-
-.newsletter-form {
+/* Beehiiv embed container */
+.beehiiv-container {
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  gap: 25px;
-}
-
-.form-text {
-  font-family: 'Playfair Display', serif;
-  font-size: 24px;
-  color: #333;
-  line-height: 1.8;
-}
-
-.form-input {
-  display: inline-block;
-  border: none;
-  border-bottom: 1px solid #333;
-  background: transparent;
-  padding: 5px;
-  font-family: 'Playfair Display', serif;
-  font-size: 24px;
-  color: #333;
-  width: auto;
-  min-width: 250px;
-  margin: 0 5px;
-}
-
-.form-input:focus {
-  outline: none;
-  border-bottom-color: #FEF6B7;
-}
-
-.form-checkbox {
-  display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 10px;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 16px;
+  background: transparent;
 }
 
-.form-checkbox input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-}
-
-.subscribe-button {
-  align-self: center;
-  background-color: #666666;
+.beehiiv-embed {
+  width: 100%;
+  max-width: 600px;
+  height: 200px;
   border: none;
-  padding: 12px 30px;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 500;
-  font-size: 18px;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  border-radius: 4px;
-  text-transform: lowercase;
+  border-radius: 8px;
+  background: transparent;
 }
 
-.subscribe-button:hover {
-  background-color: #555555;
+/* Tablet styles */
+@media (max-width: 1024px) {
+  .footer-content {
+    padding: 0 30px;
+    gap: 30px;
+  }
+  
+  .footer-logo {
+    height: 130px;
+  }
+  
+  .beehiiv-embed {
+    max-width: 500px;
+    height: 380px;
+  }
 }
 
+/* Mobile styles */
 @media (max-width: 768px) {
+  .footer {
+    padding: 30px 0 20px;
+  }
+
   .footer-content {
     flex-direction: column;
-    gap: 40px;
+    gap: 30px;
     text-align: center;
     padding: 0 20px;
+    align-items: center;
   }
 
   .footer-left {
     align-items: center;
+    order: 2; /* Move logo and social to bottom */
+  }
+
+  .footer-logo {
+    height: 100px;
+  }
+
+  .social-icon {
+    width: 30px;
+    height: 30px;
   }
 
   .footer-right {
     max-width: 100%;
-  }
-
-  .form-text {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    font-size: 20px;
-  }
-
-  .form-input {
     width: 100%;
-    margin: 5px 0;
-    font-size: 20px;
-    min-width: unset;
+    order: 1; /* Move form to top */
   }
 
-  .subscribe-button {
-    width: 100%;
-    text-align: center;
+  .beehiiv-container {
+    padding: 0;
+    margin: 0;
   }
-} 
+
+  .beehiiv-embed {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 350px !important;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Small mobile styles */
+@media (max-width: 480px) {
+  
+
+  .footer-content {
+    padding: 0 15px;
+    gap: 25px;
+  }
+
+  .footer-logo {
+    height: 200px;
+    width: 230px;
+    margin-bottom: 0%;
+  }
+
+  .footer-social {
+    gap: 15px;
+  }
+
+  .social-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .beehiiv-embed {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0;
+  }
+}
