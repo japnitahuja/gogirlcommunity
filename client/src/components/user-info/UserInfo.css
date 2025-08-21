@@ -82,14 +82,13 @@
 }
 
 .payment-info-banner {
-  background-color: #fff7e6;
+  background-color: #fef6b7;
   padding: 0.8rem 1rem;
   border-radius: 8px;
   margin-top: 1.5rem;
   font-size: 0.75rem;
   font-weight: 500;
   color: #333;
-  box-shadow: 0 0 2px rgba(0,0,0,0.05);
-    font-family: "Montserrat", Helvetica;
+  font-family: "Montserrat", Helvetica;
 
 }

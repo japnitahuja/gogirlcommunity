@@ -9,7 +9,7 @@
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   max-width: 360px;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", Helvetica;
   font-weight: 500;
   color: #333;
   text-align: left;
@@ -26,6 +26,7 @@
   font-size: 1rem;
   line-height: 1.6;
   display: block;
+  
 }
 
 .text-card-icon {
@@ -35,7 +36,7 @@
   font-size: 1.8rem;
   width: 42px;
   height: 42px;
-  background: linear-gradient(135deg, #ffb6b9, #fcd5ce);
+  background: linear-gradient(135deg, #FEF6B7, #E6D4FE);
   border-radius: 50%;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
   flex-shrink: 0;

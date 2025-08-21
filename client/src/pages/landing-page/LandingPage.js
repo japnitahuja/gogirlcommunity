@@ -1,7 +1,7 @@
-// import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import "./../../App.css";
 
-import { UserInfo, TextCard } from "./../../components";
+import { UserInfo, TextCard, Footer } from "./../../components";
 
 import logo from "./../../assets/gg-logo.png";
 import instagramLogo from "./../../assets/instagram-logo.svg";
@@ -13,61 +13,51 @@ import microsoftLogo from "./../../assets/microsoft.png";
 import communityImage from "./../../assets/community-members.jpeg";
 import communityImageMobile from "./../../assets/community-members-mobile.jpeg";
 import linkedinLogo from "./../../assets/linkedinLogo.svg";
+//import aigotmethelogo from "./../../assets/aigotmethejob.png";
+//import aiagentlogo from "./../../assets/aiagent.png";
+//import picklelogo from "./../../assets/pickleball.png"
+//import techgirlieslogo from "./../../assets/techgirlies.png";
+//import vibecodinglogo from "./../../assets/vibecoding2.png";
+//import vibecodinglogo2 from "./../../assets/vibecoding1.avif";
+
+
+
 
 const LandingPage = () => {
-  // const eventsRef = useRef(null);
-  // const [showBackToTop, setShowBackToTop] = useState(false);
+  const eventsRef = useRef(null);
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
+  // Note: scrollToEvents function is available if needed for navigation
   // const scrollToEvents = () => {
   //   eventsRef.current?.scrollIntoView({ behavior: 'smooth' });
   // };
 
-  // const scrollToTop = () => {
-  //   window.scrollTo({ top: 0, behavior: 'smooth' });
-  // };
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     // Show button when page is scrolled more than 400px
-  //     setShowBackToTop(window.scrollY > 400);
-  //   };
+  useEffect(() => {
+    const handleScroll = () => {
+      // Show button when page is scrolled more than 400px
+      setShowBackToTop(window.scrollY > 400);
+    };
 
-  //   window.addEventListener('scroll', handleScroll);
-  //   return () => window.removeEventListener('scroll', handleScroll);
-  // }, []);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-  // const pastEvents = [
-  //   {
-  //     id: 1,
-  //     title: "International Women's Day Celebration",
-  //     date: "March 8, 2024",
-  //     time: "5:00 PM PST",
-  //     location: "San Francisco",
-  //     description: "We celebrated International Women's Day with inspiring talks from women leaders in tech and a networking session.",
-  //     category: "Special Event",
-  //     image: "https://placehold.co/600x400/E6D4FE/ffffff/png"
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Career Development Workshop",
-  //     date: "March 1, 2024",
-  //     time: "2:00 PM PST",
-  //     location: "Virtual Event",
-  //     description: "An interactive session on career growth, personal branding, and leadership development in the tech industry.",
-  //     category: "Workshop",
-  //     image: "https://placehold.co/600x400/FEF6B7/ffffff/png"
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Tech Mentorship Kickoff",
-  //     date: "February 15, 2024",
-  //     time: "4:00 PM PST",
-  //     location: "Seattle",
-  //     description: "Launched our mentorship program connecting experienced tech professionals with aspiring women in tech.",
-  //     category: "Mentorship",
-  //     image: "https://placehold.co/600x400/E6D4FE/ffffff/png"
-  //   }
-  // ];
+  
+  // const upcomingEvents = [
+//     { id: 1, title: "Event 1", link: "https://lu.ma/7xkd8kvx", image: aigotmethelogo },
+//     { id: 2, title: "Event 2", link: "https://lu.ma/3m5saxz8", image: picklelogo},
+//     { id: 3, title: "Event 3", link: "https://lu.ma/s6a4vfri", image: aiagentlogo },
+//     { id: 4, title: "Event 4", link: "https://lu.ma/dic39j6w", image: vibecodinglogo },
+//   ];
+  
+//   const pastEvents = [
+//     { id: 1, title: "Past Event 1", link: "https://lu.ma/wu2aes7m", image: techgirlieslogo },
+//     { id: 2, title: "Past Event 2", link: "https://lu.ma/ao939t3q", image: vibecodinglogo2 },
+//   ];
 
   return (
     <>
@@ -226,53 +216,82 @@ const LandingPage = () => {
         </div>
       </div>
 
-      {/* <div ref={eventsRef} className="events-container-wrapper">
-        <div className="upcoming-events-section">
-          <h2 className="events-heading">Upcoming Events</h2>
-          <p className="events-subheading">Join our community events and connect with amazing women in tech!</p>
-          <Events />
-        </div>
-        
-        <div className="past-events-section">
-          <div className="past-events-container">
-            <h2 className="past-events-heading">Past Events</h2>
-            <p className="past-events-subheading">Take a look at our previous successful events!</p>
-            
-            <div className="events-grid">
-              {pastEvents.map(event => (
-                <div key={event.id} className="event-card past-event">
-                  <div className="event-image">
-                    <img src={event.image} alt={event.title} />
-                    <span className="event-category">{event.category}</span>
-                  </div>
-                  <div className="event-content">
-                    <h3 className="event-title">{event.title}</h3>
-                    <div className="event-details">
-                      <p className="event-date-time">
-                        <span>{event.date}</span>
-                        <span>{event.time}</span>
-                      </p>
-                      <p className="event-location">{event.location}</p>
-                    </div>
-                    <p className="event-description">{event.description}</p>
-                    <button className="event-gallery-button">View Gallery</button>
-                  </div>
-                </div>
-              ))}
-            </div>
+      <div ref={eventsRef} className="events-container-wrapper">
+  <div className="upcoming-events-section">
+    <h2 className="companies-text">Upcoming Events</h2>
+    <div className="iframe-container">
+      <iframe
+        src="https://lu.ma/embed/calendar/cal-Mi1Um6BhuHPquIv/events?lt=light"
+        width="600"
+        height="450"
+        style={{ border: "1px solid #bfcbda88", borderRadius: "4px", marginLeft: "auto" }}
+        allowFullScreen
+        title="Upcoming Events Calendar"
+      />
+    </div>
+  </div>
+</div>
+
+ {/*<div ref={eventsRef} className="events-container-wrapper">
+  <div className="upcoming-events-section">
+    <h2 className="events-heading">Upcoming Events</h2>
+    <div className="events-grid events-grid--singleline">
+      {upcomingEvents.map(ev => (
+        <div key={ev.id} className="event-card">
+          <div className="event-image">
+            <img src={ev.image} alt={ev.title} />
+          </div>
+          <div className="event-content">
+            <h3 className="event-title">{ev.title}</h3>
+            <a 
+              href={ev.link} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="event-button"
+            >
+              Register → 
+            </a>
           </div>
         </div>
-      </div> */}
+      ))}
+    </div>
+  </div>
 
-      {/* <button 
+  <div className="past-events-section">
+    <h2 className="past-events-heading">Past Events</h2>
+    <div className="events-grid events-grid--singleline">
+      {pastEvents.map(ev => (
+        <div key={ev.id} className="event-card">
+          <div className="event-image">
+            <img src={ev.image} alt={ev.title} />
+          </div>
+          <div className="event-content">
+            <h3 className="event-title">{ev.title}</h3>
+            <a 
+              href={ev.link} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="event-button"
+            >
+              View Event →
+            </a>
+          </div>
+        </div>
+      ))} 
+    </div>
+  </div>
+</div>*/}
+
+
+      <button 
             className={`back-to-top-button ${showBackToTop ? 'visible' : ''}`}
             onClick={scrollToTop}
             aria-label="Back to top"
           >
             ↑
-          </button> */}
+          </button>
 
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 };

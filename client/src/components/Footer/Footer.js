@@ -1,30 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import './Footer.css';
 import logo from "./../../assets/gg-logo.png";
 import instagramLogo from "./../../assets/instagram-logo.svg";
 import linkedinLogo from "./../../assets/linkedinLogo.svg";
 
 const Footer = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    agreeToMessages: false
-  });
+  useEffect(() => {
+    // Load Beehiiv script
+    const script = document.createElement('script');
+    script.src = 'https://subscribe-forms.beehiiv.com/embed.js';
+    script.async = true;
+    document.body.appendChild(script);
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: type === 'checkbox' ? checked : value
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle newsletter signup logic here
-    console.log('Newsletter signup:', formData);
-  };
+    return () => {
+      // Cleanup script when component unmounts
+      document.body.removeChild(script);
+    };
+  }, []);
 
   return (
     <footer className="footer">
@@ -52,49 +44,29 @@ const Footer = () => {
         </div>
 
         <div className="footer-right">
-          {/* <h3 className="newsletter-heading"></h3> */}
-          <form onSubmit={handleSubmit} className="newsletter-form">
-            <div className="form-text">
-              <span>My name is </span>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="form-input"
-                placeholder=""
-              />
-              <span>, email is </span>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="form-input"
-                placeholder=""
-              />
-              <span>& my phone is </span>
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                className="form-input"
-                placeholder=""
-              />
-              <span>.</span>
-            </div>
-
-            
-
-            <button type="submit" className="subscribe-button">
-              Subscribe to Newsletter
-            </button>
-          </form>
+          <div className="beehiiv-container">
+            <iframe 
+              src="https://subscribe-forms.beehiiv.com/dc90404b-cfb4-4bb0-a3a8-fc5668e33afa" 
+              className="beehiiv-embed" 
+              data-test-id="beehiiv-embed" 
+              frameBorder="0" 
+              scrolling="no" 
+              style={{
+                width: '731px', 
+                height: '415px', 
+                margin: 0, 
+                borderRadius: '0px 0px 0px 0px', 
+                backgroundColor: 'transparent', 
+                boxShadow: '0 0 #0000', 
+                maxWidth: '100%'
+              }}
+              title="Newsletter Subscription"
+            />
+          </div>
         </div>
       </div>
     </footer>
   );
 };
 
-export default Footer; 
+export default Footer;
